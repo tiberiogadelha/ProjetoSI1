@@ -2,6 +2,9 @@ package com.ufcg.si1.resources;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.validation.Valid;
+
 import com.ufcg.si1.repository.ProdutoRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,10 +18,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import com.ufcg.si1.model.Produto;
-import com.ufcg.si1.util.CustomErrorType;
 
 import exceptions.ObjetoInvalidoException;
 
@@ -26,7 +27,7 @@ import exceptions.ObjetoInvalidoException;
 @RequestMapping("/produto")
 @CrossOrigin
 public class ProdutoResource {
-	
+
 	@Autowired
 	private ProdutoRepository produtoRepository;
 
@@ -41,7 +42,7 @@ public class ProdutoResource {
 	}
 
 	@PostMapping()
-	public ResponseEntity<?> criarProduto(@RequestBody Produto produto) {
+	public ResponseEntity<Produto> criarProduto(@RequestBody Produto produto) {
 
 		boolean produtoExiste = false;
 
@@ -52,15 +53,13 @@ public class ProdutoResource {
 		}
 
 		if (produtoExiste) {
-			return new ResponseEntity<>(new CustomErrorType("O produto " + produto.getNome() + " do fabricante "
-					+ produto.getFabricante() + " ja esta cadastrado!"), HttpStatus.CONFLICT);
+			return new ResponseEntity<Produto>(HttpStatus.CONFLICT);
 		}
 
 		try {
 			produto.mudaSituacao(Produto.INDISPONIVEL);
 		} catch (ObjetoInvalidoException e) {
-			return new ResponseEntity<>(new CustomErrorType("Error: Produto" + produto.getNome() + " do fabricante "
-					+ produto.getFabricante() + " alguma coisa errada aconteceu!"), HttpStatus.NOT_ACCEPTABLE);
+			return new ResponseEntity<Produto>(HttpStatus.NOT_ACCEPTABLE);
 		}
 
 		produtoRepository.save(produto);
@@ -68,24 +67,22 @@ public class ProdutoResource {
 		return new ResponseEntity<Produto>(produto, HttpStatus.CREATED);
 	}
 
-	@GetMapping(value="/{id}", produces="application/json")
-	public ResponseEntity<?> consultarProduto(@PathVariable("id") long id) {
-
-		Produto produto = getProduto(id);
+	@GetMapping(value="/{nome}", produces="application/json")
+	public ResponseEntity<Produto> consultarProduto(@PathVariable("nome") String nome) {
+		Produto produto = getProduto(nome);
 		if (produto == null) {
-			return new ResponseEntity<>(new CustomErrorType("Produto inexistente. Id do produto: " + id + " nao existe"),
-					HttpStatus.NOT_FOUND);
+			return new ResponseEntity<Produto>(HttpStatus.NOT_FOUND);
 		}
 		return new ResponseEntity<Produto>(produto, HttpStatus.OK);
 	}
 
-	@PutMapping(value="/{id}", produces="application/json")
-	public ResponseEntity<?> updateProduto(@PathVariable("id") long id, @RequestBody Produto produto) {
+	@PutMapping(produces="application/json")
+	public ResponseEntity<Produto> updateProduto(@RequestBody @Valid Produto produto) {
 
-		Produto currentProduto = getProduto(id);
+		Produto currentProduto = getProduto(produto.getNome());
+		System.out.println(produto.getNome());
 		if (currentProduto == null) {
-			return new ResponseEntity<>(new CustomErrorType("Produto inexistente. Id do produto: " + id + " nao existe."),
-					HttpStatus.NOT_FOUND);
+			return new ResponseEntity<Produto>(HttpStatus.NOT_FOUND);
 		}
 
 		currentProduto.mudaNome(produto.getNome());
@@ -98,24 +95,22 @@ public class ProdutoResource {
 		return new ResponseEntity<Produto>(currentProduto, HttpStatus.OK);
 	}
 
-	@DeleteMapping(value="/{id}",produces="application/json")
-	public ResponseEntity<?> deleteUser(@PathVariable("id") long id) {
+	@DeleteMapping(value="/{nome}",produces="application/json")
+	public ResponseEntity<Produto> deleteUser(@PathVariable("nome") String nome) {
 
-		Produto user = getProduto(id);
+		Produto user = getProduto(nome);
 		if (user == null) {
-			return new ResponseEntity<>(new CustomErrorType("Produto inexistente. Id do produto: " + id + " nao existe."),
-					HttpStatus.NOT_FOUND);
+			return new ResponseEntity<Produto>(HttpStatus.NOT_FOUND);
 		}
-		produtoRepository.delete("id");
+		produtoRepository.delete(user);
 		return new ResponseEntity<Produto>(HttpStatus.NO_CONTENT);
 	}
-	
-	@GetMapping(value="/{id}", produces="application/json")
-	public @ResponseBody Produto getProduto(@PathVariable(value="id") long id){
+
+	private Produto getProduto(String nome){
 		Produto produto = null;
 		ArrayList<Produto> produtos = listaProdutos();
 		for(int i = 0; i < produtos.size(); i++) {
-			if(produtos.get(i).getId() == id) {
+			if(produtos.get(i).getNome().equals(nome)) {
 				return produtos.get(i);
 			}
 		}

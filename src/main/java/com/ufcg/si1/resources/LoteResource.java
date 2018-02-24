@@ -6,6 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -28,22 +29,24 @@ public class LoteResource {
 	LoteRepository loteRepository;
 	ProdutoRepository produtoRepository;
 
-	@RequestMapping(value = "/produto/{id}/lote", method = RequestMethod.POST)
+	@PostMapping(value = "/produto/{id}/lote")
 	public ResponseEntity<?> criarLote(@PathVariable("id") long produtoId, @RequestBody LoteDTO loteDTO) {
-		Produto product = produtoRepository.findById(produtoId);
-
-		if (product == null) {
+		System.out.println(produtoId);
+		Produto produto = produtoRepository.findById(produtoId);
+		System.out.println(produto.getNome());
+		System.out.println("lote dto" + loteDTO.getNumeroDeItens());
+		if (produto == null) {
 			return new ResponseEntity<>(
 					new CustomErrorType("Unable to create lote. Produto with id " + produtoId + " not found."),
 					HttpStatus.NOT_FOUND);
 		}
 
-		Lote lote = loteRepository.save(new Lote(product, loteDTO.getNumeroDeItens(), loteDTO.getDataDeValidade()));
+		Lote lote = loteRepository.save(new Lote(produto, loteDTO.getNumeroDeItens(), loteDTO.getDataDeValidade()));
 
 		try {
-			if (product.getSituacao() == Produto.INDISPONIVEL) {
+			if (produto.getSituacao() == Produto.INDISPONIVEL) {
 				if (loteDTO.getNumeroDeItens() > 0) {
-					Produto produtoDisponivel = product;
+					Produto produtoDisponivel = produto;
 					produtoDisponivel.situacao = Produto.DISPONIVEL;
 					produtoRepository.save(produtoDisponivel);
 				}
