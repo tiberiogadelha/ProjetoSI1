@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="br">
+<html lang="br" ng-app="myApp">
 
 <head>
     <meta charset="UTF-8">
@@ -21,14 +21,14 @@
     <title>Mercado</title>
 </head>
 
-<body>
+<body ng-controller="produtoController">
 
     <div class="container-fluid">
         <div class="row">
-            <div class="col-md-10">
+            <div class="col-md-12">
                 <div class="card mb-4">
                     <div class="card-block">
-                        <h3 class="card-title">Cadastro de Produtos</h3>
+                        <h3 class="card-title">{{titulo}}</h3>
                         <form class="form-horizontal" action="" method="post">
                             <fieldset>
                                 <!-- Name input-->
@@ -60,7 +60,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-10">
+            <div class="col-md-12">
                 <div class="card mb-4" id="listaProdutos">
                     <div class="card-block">
                         <h3 class="card-title">Recent Orders</h3>
@@ -147,10 +147,22 @@
     </div>
     </div>
 
-    <!-- Bootstrap core JavaScript
+    <!-- Scripts Angular e outros Js
     ================================================== -->
-    <!-- Placed at the end of the document so the pages load faster -->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular-route.js"></script>
+
+    <script src="js/module.js"></script>
+    <script src="js/config/config.js"></script>
+    <script src="js/controller/produtoController.js"></script>
+
+    <!-- Bootstrap JavaScript
+    ================================================== -->
+
     <script src="js/bootstrap/jquery-3.2.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb"
+        crossorigin="anonymous"></script>
     <script src="dist/js/bootstrap.min.js"></script>
 
     <script src="js/bootstrap/chart.min.js"></script>
@@ -160,11 +172,6 @@
     <script src="js/bootstrap/bootstrap-datepicker.js"></script>
     <script src="js/bootstrap/custom.js"></script>
 
-    <script src="js/modulo.js"></script>
-    <script src="js/config/config.js"></script>
-
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular.min.js"></script>
-    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular-route.js"></script>
 </body>
 
 </html>
