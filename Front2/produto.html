@@ -29,45 +29,67 @@
                 <div class="card mb-4">
                     <div class="card-block">
                         <h3 class="card-title">{{titulo}}</h3>
-                        <form class="form-horizontal" action="" method="post">
+
+                        <!-- Formularios para cadastrar um produto -->
+                        <form class="form-horizontal" action="" ng-submit="cadastraProduto(produto)">
                             <fieldset>
-                                <!-- Name input-->
+                                
                                 <div class="form-group">
-                                    <label class="col-12 control-label no-padding" for="name">Nome</label>
+                                    <label class="col-12 control-label no-padding" for="name">Nome do Produto</label>
 
                                     <div class="col-12 no-padding">
-                                        <input id="name" name="name" type="text" placeholder="Your name" class="form-control">
+                                        <input id="nome" ng-model="produto.nome" type="text" placeholder="Nome do produto" class="form-control">
                                     </div>
                                 </div>
 
-                                <!-- Email input-->
                                 <div class="form-group">
-                                    <label class="col-12 control-label no-padding" for="email">Your E-mail</label>
+                                    <label class="col-12 control-label no-padding" for="name">Código de barras</label>
 
                                     <div class="col-12 no-padding">
-                                        <input id="email" name="email" type="text" placeholder="Your email" class="form-control">
+                                        <input id="codigoDeBarra" ng-model="produto.codigoDeBarra" type="text" placeholder="Código de barra" class="form-control">
                                     </div>
                                 </div>
 
+                                <div class="form-group">
+                                    <label class="col-12 control-label no-padding" for="name">Fabricante</label>
+
+                                    <div class="col-12 no-padding">
+                                        <input id="fabricante" ng-model="produto.fabricante" type="text" placeholder="Fabricante" class="form-control">
+                                    </div>
+                                </div>
+
+
+                                <div class="form-group">
+                                    <label class="col-12 control-label no-padding" for="name">Categoria do produto</label>
+
+                                    <div class="col-12 no-padding">
+                                        <select class="form-control" id="categoriaProduto" ng-model="produto.categoria">
+                           					 <option value="">Categoria do Produto</option>
+                            					<option value="{{categoria}}" ng-repeat="categoria in categorias">{{categoria}}</option>
+                        					</select>
+                                    </div>
+                                </div>
                                 <!-- Form actions -->
                                 <div class="form-group">
                                     <div class="col-12 widget-right no-padding">
-                                        <button type="submit" class="btn btn-primary btn-md float-right">Submit</button>
+                                        <button type="submit" class="btn btn-primary btn-md float-right">Cadastrar</button>
                                     </div>
                                 </div>
+
                             </fieldset>
                         </form>
                     </div>
                 </div>
             </div>
+
+            <!-- Tabela dos produtos cadastrados no sistema! -->
             <div class="col-md-12">
                 <div class="card mb-4" id="listaProdutos">
                     <div class="card-block">
-                        <h3 class="card-title">Recent Orders</h3>
+                        <h3 class="card-title">Produtos cadastrados</h3>
 
                         <div class="dropdown card-title-btn-container">
-                            <button class="btn btn-sm btn-subtle" type="button">
-                                <em class="fa fa-list-ul"></em> View All</button>
+                            
 
                             <button class="btn btn-sm btn-subtle dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <em class="fa fa-cog"></em>
@@ -75,11 +97,11 @@
 
                             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
                                 <a class="dropdown-item" href="#">
-                                    <em class="fa fa-search mr-1"></em> More info</a>
+                                    <em class="fa fa-search mr-1"></em> Ordenar por nome </a>
                                 <a class="dropdown-item" href="#">
-                                    <em class="fa fa-thumb-tack mr-1"></em> Pin Window</a>
+                                    <em class="fa fa-thumb-tack mr-1"></em> Ordenar por preço </a>
                                 <a class="dropdown-item" href="#">
-                                    <em class="fa fa-remove mr-1"></em> Close Window</a>
+                                    <em class="fa fa-remove mr-1"></em> Ordenar por categoria </a>
                             </div>
                         </div>
 
@@ -87,55 +109,19 @@
                             <table class="table table-striped">
                                 <thead>
                                     <tr>
-                                        <th>Order #</th>
-
-                                        <th>Product</th>
-
-                                        <th>Customer</th>
-
-                                        <th>Status</th>
+                                       <th scope="col">Nome</th>
+                           			   <th scope="col">Código de barras</th>
+                                       <th scope="col">Fabricante</th>
+                                       <th scope="col">Categoria</th>
                                     </tr>
                                 </thead>
 
                                 <tbody>
-                                    <tr>
-                                        <td>0001</td>
-
-                                        <td>Product Name 1</td>
-
-                                        <td>Customer 1</td>
-
-                                        <td>Complete</td>
-                                    </tr>
-
-                                    <tr>
-                                        <td>0002</td>
-
-                                        <td>Product Name 2</td>
-
-                                        <td>Customer 2</td>
-
-                                        <td>Complete</td>
-                                    </tr>
-
-                                    <tr>
-                                        <td>0003</td>
-
-                                        <td>Product Name 3</td>
-
-                                        <td>Customer 3</td>
-
-                                        <td>Processing</td>
-                                    </tr>
-
-                                    <tr>
-                                        <td>0004</td>
-
-                                        <td>Product Name 4</td>
-
-                                        <td>Customer 4</td>
-
-                                        <td>Pending</td>
+                                    <tr ng-repeat="produto in produtos">
+                           			 	<td>{{produto.nome}}</td>
+                            			<td>{{produto.codigoDeBarra}}</td>
+                           			    <td>{{produto.fabricante}}</td>
+                                        <td>{{produto.categoria}}</td>
                                     </tr>
                                 </tbody>
                             </table>
