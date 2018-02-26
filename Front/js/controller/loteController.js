@@ -8,7 +8,7 @@ function loteController($scope, produtoService){
     $scope.lotes = [];
     $scope.lote = []
 
-    $scope.produtos = [{nomeProduto:"Feijão", quantidadeProduto:20,validadeProduto:"31-01-2018",categoriaProduto:"Alimentício", fabricante:"Nestle"}];
+    $scope.produtos = [{nome:"Feijão", quantidadeProduto:20,validadeDeproduto:"31-01-2018",categoria:"Alimentício", fabricante:"Nestle"}];
 
     /**
     var carregaProdutos = function () {
