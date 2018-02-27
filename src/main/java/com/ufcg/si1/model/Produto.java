@@ -7,6 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 
 import exceptions.ObjetoInvalidoException;
 
@@ -28,6 +29,9 @@ public class Produto implements Serializable{
 	private String fabricante;
 
 	private String categoria;
+	
+	@ManyToOne
+	private Registro registro;
 
 	public int situacao; // usa variaveis estaticas abaixo
 	/* situacoes do produto */

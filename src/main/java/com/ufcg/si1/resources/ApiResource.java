@@ -114,7 +114,6 @@ public class ApiResource {
 	}
 
 	public Produto getProduto(long id){
-		System.out.println(id);
 		Produto produto = null;
 		ArrayList<Produto> produtos = listaProdutos();
 		for(int i = 0; i < produtos.size(); i++) {
@@ -172,4 +171,42 @@ public class ApiResource {
 		return new ResponseEntity<List<Lote>>(lotes, HttpStatus.OK);
 	}
 	
+	@DeleteMapping(value="/lote/{id}")
+	public ResponseEntity<Lote> removerDoLote(@PathVariable("id") long produtoId, Integer quantidadeItens){
+		System.out.println(quantidadeItens);
+		Lote lote = buscarLote(produtoId);
+		int totalRemovido = lote.getNumeroDeItens() - quantidadeItens;
+		
+		if(totalRemovido < 0) {
+			return new ResponseEntity<Lote>(HttpStatus.NO_CONTENT);
+		} else if(totalRemovido == 0){
+			loteRepository.delete(lote);
+			return new ResponseEntity<Lote>(HttpStatus.ALREADY_REPORTED);
+
+		} else {
+			lote.setNumeroDeItens(totalRemovido);
+			loteRepository.save(lote);
+			return new ResponseEntity<Lote>(HttpStatus.ACCEPTED);
+
+		}
+	}
+
+	private Lote buscarLote(long produtoId) {
+		Lote lote = null;
+		for(Lote l : listarLotes()) {
+			if(l.getId() == produtoId) {
+				lote = l;
+			}
+		}
+		return lote;
+	}
+
+	private ArrayList<Lote> listarLotes() {
+		Iterable<Lote> listaLotes = loteRepository.findAll();
+		ArrayList<Lote> lotes = new ArrayList<Lote>();
+		for(Lote lote : listaLotes){
+			lotes.add(lote);
+		}
+		return lotes;
+	}
 }
