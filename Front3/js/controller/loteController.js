@@ -1,8 +1,8 @@
 app.controller("loteController", loteController);
 
-loteController.$inject = ['$scope','produtoService'];
+loteController.$inject = ['$scope','produtoService', 'loteService'];
 
-function loteController($scope,produtoService){
+function loteController($scope,produtoService, loteService){
 
  $scope.titulo = "Cadastro de Lote";
     $scope.lotes = [];
