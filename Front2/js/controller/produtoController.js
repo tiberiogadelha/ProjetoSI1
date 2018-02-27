@@ -1,29 +1,24 @@
-app.controller("produtoController", produtoController);
+angular.module("myApp").controller("produtoController",produtoController);
 
-produtoController.$inject = ['$scope','produtoService'];
+produtoController.$inject = ['$scope'];
 
-function produtoController($scope,produtoService){
+function produtoController($scope){
 
-    $scope.produtos = [];
+    $scope.titulo = "Cadastro de Produtos"
+    $scope.categorias = ["Alimentício","Limpeza","Cosméticos"]
+    $scope.produtos = [{nome:"Feijão", quantidadeProduto:20,codigoDeBarra:"019912177",dataDeValidade:"31-01-2018", categoria:"Alimentício", fabricante:"Nestle"}];
 
-    $scope.titulo = 'Cadastro de Produtos'
-
-    var carregarProdutos = function () {
-
-		produtoService.get().then(function (data) {
-			$scope.produtos = data;
-			console.log("Produtos Carregados!!!")
-		}).catch(function onRejected(errorResponse) {
-			console.log('Erro em produtoService');
-			console.log('status: ', errorResponse.status);
-		});
+    $scope.cadastraProduto = function(produto){
+    
+        $scope.produtos.push(produto);
+        $scope.produto = {};
+        
     }
 
-    $scope.cadastrarProduto = function (produto) {
-		produtoService.post(produto);
-		$scope.produto = {};
-		carregarProdutos();
-	}
-    
-    carregarProdutos();
+    $scope.darPrecoAoProduto = function(produto, preco) {
+        var precoDoProduto = parseFloat(preco);
+    	produto.precoProduto = precoDoProduto;
+    	console.log(produto);
+    }
+
 }
