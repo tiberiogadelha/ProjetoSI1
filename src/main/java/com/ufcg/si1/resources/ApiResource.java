@@ -1,0 +1,212 @@
+package com.ufcg.si1.resources;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.validation.Valid;
+
+import com.ufcg.si1.repository.LoteRepository;
+import com.ufcg.si1.repository.ProdutoRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.ufcg.si1.model.Lote;
+import com.ufcg.si1.model.Produto;
+import com.ufcg.si1.model.DTO.LoteDTO;
+
+import exceptions.ObjetoInvalidoException;
+
+@RestController
+@RequestMapping("/api")
+@CrossOrigin
+public class ApiResource {
+	
+	@Autowired
+	private ProdutoRepository produtoRepository;
+	
+	@Autowired
+	private LoteRepository loteRepository;
+	
+	//	Metodos de Produto
+
+	@GetMapping(value="/produto",produces="application/json")
+	public ResponseEntity<List<Produto>> listAllUsers() {
+		List<Produto> produtos = produtoRepository.findAll();
+
+		if (produtos.isEmpty()) {
+			return new ResponseEntity<List<Produto>>(HttpStatus.NOT_FOUND);
+		}
+		return new ResponseEntity<List<Produto>>(produtos, HttpStatus.OK);
+	}
+
+	@PostMapping(value="/produto")
+	public ResponseEntity<Produto> criarProduto(@RequestBody Produto produto) {
+
+		boolean produtoExiste = false;
+
+		for (Produto p : produtoRepository.findAll()) {
+			if (p.getCodigoBarra().equals(produto.getCodigoBarra())) {
+				produtoExiste = true;
+			}
+		}
+
+		if (produtoExiste) {
+			return new ResponseEntity<Produto>(HttpStatus.CONFLICT);
+		}
+
+		try {
+			produto.mudaSituacao(Produto.INDISPONIVEL);
+		} catch (ObjetoInvalidoException e) {
+			return new ResponseEntity<Produto>(HttpStatus.NOT_ACCEPTABLE);
+		}
+
+		produtoRepository.save(produto);
+
+		return new ResponseEntity<Produto>(produto, HttpStatus.CREATED);
+	}
+
+	@GetMapping(value="/produto/{id}", produces="application/json")
+	public ResponseEntity<Produto> consultarProduto(@PathVariable("id") long id) {
+		Produto produto = getProduto(id);
+		if (produto == null) {
+			return new ResponseEntity<Produto>(HttpStatus.NOT_FOUND);
+		}
+		return new ResponseEntity<Produto>(produto, HttpStatus.OK);
+	}
+
+	@PutMapping(produces="application/json")
+	public ResponseEntity<Produto> updateProduto(@RequestBody @Valid Produto produto) {
+
+		Produto currentProduto = getProduto(produto.getId());
+		if (currentProduto == null) {
+			return new ResponseEntity<Produto>(HttpStatus.NOT_FOUND);
+		}
+
+		currentProduto.mudaNome(produto.getNome());
+		currentProduto.setPreco(produto.getPreco());
+		currentProduto.setCodigoBarra(produto.getCodigoBarra());
+		currentProduto.mudaFabricante(produto.getFabricante());
+		currentProduto.mudaCategoria(produto.getCategoria());
+		
+		produtoRepository.save(currentProduto);
+		return new ResponseEntity<Produto>(currentProduto, HttpStatus.OK);
+	}
+
+	@DeleteMapping(value="/produto/{id}",produces="application/json")
+	public ResponseEntity<Produto> deleteUser(@PathVariable("nome") long id) {
+
+		Produto user = getProduto(id);
+		if (user == null) {
+			return new ResponseEntity<Produto>(HttpStatus.NOT_FOUND);
+		}
+		produtoRepository.delete(user);
+		return new ResponseEntity<Produto>(HttpStatus.NO_CONTENT);
+	}
+
+	public Produto getProduto(long id){
+		Produto produto = null;
+		ArrayList<Produto> produtos = listaProdutos();
+		for(int i = 0; i < produtos.size(); i++) {
+			if(produtos.get(i).getId() == id) {
+				return produtos.get(i);
+			}
+		}
+		return produto;
+	}
+
+	private ArrayList<Produto> listaProdutos() {
+		Iterable<Produto> listaProdutos = produtoRepository.findAll();
+		ArrayList<Produto> produtos = new ArrayList<Produto>();
+		for(Produto produto : listaProdutos){
+			produtos.add(produto);
+		}
+		return produtos;
+	}
+	
+	
+	//	Metodos de Lote
+
+	
+	@PostMapping(value = "/lote/{id}")
+	public ResponseEntity<Lote> criarLote(@PathVariable("id") long produtoId, @RequestBody LoteDTO loteDTO) {
+		Produto produto = produtoRepository.findById(produtoId);
+		if (produto == null) {
+			return new ResponseEntity<Lote>(HttpStatus.NOT_FOUND);
+		}
+
+		Lote lote = loteRepository.save(new Lote(produto, loteDTO.getNumeroDeItens(), loteDTO.getDataDeValidade()));
+
+		try {
+			if (produto.getSituacao() == Produto.INDISPONIVEL) {
+				if (loteDTO.getNumeroDeItens() > 0) {
+					Produto produtoDisponivel = produto;
+					produtoDisponivel.situacao = Produto.DISPONIVEL;
+					produtoRepository.save(produtoDisponivel);
+				}
+			}
+		} catch (ObjetoInvalidoException e) {
+			e.printStackTrace();
+		}
+
+		return new ResponseEntity<Lote>(lote, HttpStatus.CREATED);
+	}
+
+	@GetMapping(value="/lote", produces="application/json")
+	public ResponseEntity<List<Lote>> listAllLotess() {
+		List<Lote> lotes = loteRepository.findAll();
+
+		if (lotes.isEmpty()) {
+			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+		}
+		return new ResponseEntity<List<Lote>>(lotes, HttpStatus.OK);
+	}
+	
+	@DeleteMapping(value="/lote/{id}")
+	public ResponseEntity<Lote> removerDoLote(@PathVariable("id") long produtoId, Integer quantidadeItens){
+		System.out.println(quantidadeItens);
+		Lote lote = buscarLote(produtoId);
+		int totalRemovido = lote.getNumeroDeItens() - quantidadeItens;
+		
+		if(totalRemovido < 0) {
+			return new ResponseEntity<Lote>(HttpStatus.NO_CONTENT);
+		} else if(totalRemovido == 0){
+			loteRepository.delete(lote);
+			return new ResponseEntity<Lote>(HttpStatus.ALREADY_REPORTED);
+
+		} else {
+			lote.setNumeroDeItens(totalRemovido);
+			loteRepository.save(lote);
+			return new ResponseEntity<Lote>(HttpStatus.ACCEPTED);
+
+		}
+	}
+
+	private Lote buscarLote(long produtoId) {
+		Lote lote = null;
+		for(Lote l : listarLotes()) {
+			if(l.getId() == produtoId) {
+				lote = l;
+			}
+		}
+		return lote;
+	}
+
+	private ArrayList<Lote> listarLotes() {
+		Iterable<Lote> listaLotes = loteRepository.findAll();
+		ArrayList<Lote> lotes = new ArrayList<Lote>();
+		for(Lote lote : listaLotes){
+			lotes.add(lote);
+		}
+		return lotes;
+	}
+}

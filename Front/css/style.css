@@ -1,0 +1,17 @@
+body{
+    background-color: rgb(235, 237, 240);
+}
+
+.table{
+    margin-top: 20px;
+}
+
+.titulo{
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+#nomeMercearia {
+    font-family: "Lucida Console", Courier, monospace;
+    color: aliceblue
+}
