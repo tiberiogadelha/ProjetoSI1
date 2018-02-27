@@ -4,10 +4,14 @@ produtoController.$inject = ['$scope','produtoService'];
 
 function produtoController($scope,produtoService){
 
+    $scope.tipoDeOrdenacao = "+nome";
+    $scope.produto = {};
+    $scope.titulo = "Cadastro de Produtos"
     $scope.produtos = [];
 
-    $scope.titulo = 'Cadastro de Produtos'
+    
 
+    
     var carregarProdutos = function () {
 
 		produtoService.get().then(function (data) {
@@ -19,11 +23,20 @@ function produtoController($scope,produtoService){
 		});
     }
 
+    
+
     $scope.cadastrarProduto = function (produto) {
+    
+    	
 		produtoService.post(produto);
 		$scope.produto = {};
 		carregarProdutos();
-	}
+	} 
     
     carregarProdutos();
+
+    $scope.ordenar = function(tipo) {
+    	$scope.tipoDeOrdenacao = tipo;
+    	
+    }
 }

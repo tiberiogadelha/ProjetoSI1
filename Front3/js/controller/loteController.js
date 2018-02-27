@@ -7,10 +7,11 @@ function loteController($scope,produtoService){
  $scope.titulo = "Cadastro de Lote";
     $scope.lotes = [];
     $scope.lote = {};
+    $scope.tipoDeOrdenacao = "+dataDeValidade";
 
-    $scope.produtos = [{nome:"Feijão", quantidadeProduto:20,validadeDeproduto:"31-01-2018",categoria:"Alimentício", fabricante:"Nestle"}];
+    $scope.produtos = [{id:1, nome:"Feijão", numeroDeItens:20, dataDeValidade:"31-01-2018",categoria:"Alimentício", fabricante:"Nestle"}];
 
-    /**
+    
     var carregaProdutos = function () {
 
         produtoService.get().then(function (data) {
@@ -23,12 +24,24 @@ function loteController($scope,produtoService){
     }
 
     carregaProdutos();
-    */
+    
+    var carregarLotes = function () {
 
-    $scope.cadastraLote = function(lote){
-        console.log(lote);
-        $scope.lotes.push(lote);
+        loteService.get().then(function (data) {
+            $scope.lotes = data;
+            console.log("Lotes Carregados!!!")
+        }).catch(function onRejected(errorResponse) {
+            console.log('Erro em loteService');
+            console.log('status: ', errorResponse.status);
+        });
+    }
+
+    carregarLotes();
+
+    $scope.cadastrarLote = function(lote){
+       loteService.post(lote);
         $scope.lote = {};
+        carregarLotes();
         
     }
 
@@ -36,5 +49,11 @@ function loteController($scope,produtoService){
         var produto = lote.produto;
 
         produto.quantidadeProduto -= quantidade;
+    }
+
+    $scope.ordenar = function(tipo) {
+        console.log(tipo);
+        $scope.tipoDeOrdenacao = tipo;
+
     }
 }
