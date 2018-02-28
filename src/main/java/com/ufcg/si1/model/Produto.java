@@ -2,12 +2,10 @@ package com.ufcg.si1.model;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
 
 import exceptions.ObjetoInvalidoException;
 
@@ -30,16 +28,12 @@ public class Produto implements Serializable{
 
 	private String categoria;
 	
-	@ManyToOne
-	private Registro registro;
-
 	public int situacao; // usa variaveis estaticas abaixo
 	/* situacoes do produto */
 	public static final int DISPONIVEL = 1;
 	public static final int INDISPONIVEL = 2;
 
 	public Produto() {
-		this.id = 0;
 		this.preco = new BigDecimal(0);
 	}
 

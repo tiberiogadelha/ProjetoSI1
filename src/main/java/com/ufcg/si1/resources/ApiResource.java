@@ -30,13 +30,13 @@ import exceptions.ObjetoInvalidoException;
 @RequestMapping("/api")
 @CrossOrigin
 public class ApiResource {
-	
+
 	@Autowired
 	private ProdutoRepository produtoRepository;
-	
+
 	@Autowired
 	private LoteRepository loteRepository;
-	
+
 	//	Metodos de Produto
 
 	@GetMapping(value="/produto",produces="application/json")
@@ -52,27 +52,22 @@ public class ApiResource {
 	@PostMapping(value="/produto")
 	public ResponseEntity<Produto> criarProduto(@RequestBody Produto produto) {
 
-		boolean produtoExiste = false;
-
-		for (Produto p : produtoRepository.findAll()) {
-			if (p.getCodigoBarra().equals(produto.getCodigoBarra())) {
-				produtoExiste = true;
+		if(getProduto(produto.getId()) == null) {
+			try {
+				produto.mudaSituacao(Produto.INDISPONIVEL);
+				
+			} catch (ObjetoInvalidoException e) {
+				return new ResponseEntity<Produto>(HttpStatus.NOT_ACCEPTABLE);
 			}
-		}
 
-		if (produtoExiste) {
+			produtoRepository.save(produto);
+
+			return new ResponseEntity<Produto>(produto, HttpStatus.CREATED);			
+		}else {
+
 			return new ResponseEntity<Produto>(HttpStatus.CONFLICT);
 		}
 
-		try {
-			produto.mudaSituacao(Produto.INDISPONIVEL);
-		} catch (ObjetoInvalidoException e) {
-			return new ResponseEntity<Produto>(HttpStatus.NOT_ACCEPTABLE);
-		}
-
-		produtoRepository.save(produto);
-
-		return new ResponseEntity<Produto>(produto, HttpStatus.CREATED);
 	}
 
 	@GetMapping(value="/produto/{id}", produces="application/json")
@@ -97,7 +92,7 @@ public class ApiResource {
 		currentProduto.setCodigoBarra(produto.getCodigoBarra());
 		currentProduto.mudaFabricante(produto.getFabricante());
 		currentProduto.mudaCategoria(produto.getCategoria());
-		
+
 		produtoRepository.save(currentProduto);
 		return new ResponseEntity<Produto>(currentProduto, HttpStatus.OK);
 	}
@@ -132,11 +127,11 @@ public class ApiResource {
 		}
 		return produtos;
 	}
-	
-	
+
+
 	//	Metodos de Lote
 
-	
+
 	@PostMapping(value = "/lote/{id}")
 	public ResponseEntity<Lote> criarLote(@PathVariable("id") long produtoId, @RequestBody LoteDTO loteDTO) {
 		Produto produto = produtoRepository.findById(produtoId);
@@ -170,13 +165,13 @@ public class ApiResource {
 		}
 		return new ResponseEntity<List<Lote>>(lotes, HttpStatus.OK);
 	}
-	
+
 	@DeleteMapping(value="/lote/{id}")
 	public ResponseEntity<Lote> removerDoLote(@PathVariable("id") long produtoId, Integer quantidadeItens){
 		System.out.println(quantidadeItens);
 		Lote lote = buscarLote(produtoId);
 		int totalRemovido = lote.getNumeroDeItens() - quantidadeItens;
-		
+
 		if(totalRemovido < 0) {
 			return new ResponseEntity<Lote>(HttpStatus.NO_CONTENT);
 		} else if(totalRemovido == 0){
