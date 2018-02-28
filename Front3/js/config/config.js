@@ -1,9 +1,6 @@
 app.config(
     function ($routeProvider) {
         $routeProvider
-            .when('/', {
-                templateUrl: 'index.html'
-            })
             .when('/produto', {
                 templateUrl: 'produto.html',
                 controller: 'produtoController'
