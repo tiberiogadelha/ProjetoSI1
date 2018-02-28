@@ -9,6 +9,10 @@ app.config(
                 templateUrl: 'lote.html',
                 controller: 'loteController'
             })
+            .when('/catalogo', {
+                templateUrl: 'catalogo.html',
+                controller: 'catalogoController'
+            })
             .otherwise({
                 redirectTo: '/'
             });
