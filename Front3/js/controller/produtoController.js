@@ -8,6 +8,8 @@ function produtoController($scope,produtoService){
     $scope.produto = {};
     $scope.titulo = "Cadastro de Produtos"
     $scope.produtos = [];
+    $scope.preco = 0.0;
+    $scope.produtoModificado = {};
 
     var carregarProdutos = function () {
 
@@ -33,5 +35,13 @@ function produtoController($scope,produtoService){
     $scope.ordenar = function(tipo) {
     	$scope.tipoDeOrdenacao = tipo;
     	
+    }
+
+    $scope.configPreco = function(produto, preco) {
+        produto.preco = preco;
+        produtoService.put(produto);
+        $scope.preco = 0.0;
+        $scope.produtoModificado = {};
+        carregarProdutos();
     }
 }

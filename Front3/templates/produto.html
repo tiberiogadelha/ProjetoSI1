@@ -83,14 +83,19 @@
                     </div>
                 </div>
 
+
+
                 <!-- Tabela dos produtos cadastrados no sistema! -->
                 <div class="col-md-12">
                     <div class="card mb-4" id="listaProdutos">
                         <div class="card-block">
+                        
                             <h3 class="card-title">Produtos cadastrados</h3>
 
                             <div class="dropdown card-title-btn-container">
 
+
+                            <button class="btn btn-sm btn-subtle" data-toggle="modal" data-target="#exampleModalCenter" type="button"><em class="fa fa-list-ul"></em>Configurar Preço</button>
 
                                 <button class="btn btn-sm btn-subtle dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     <em class="fa fa-cog"></em>
@@ -101,6 +106,8 @@
                                         <em class="fa fa-search mr-1"></em> Ordenar por nome</a>
                                     <a class="dropdown-item" ng-click="ordenar('+fabricante')">
                                         <em class="fa fa-thumb-tack mr-1"></em> Ordenar por fabricante</a>
+                                    <a class="dropdown-item" ng-click="ordenar('+preco')">
+                                        <em class="fa fa-thumb-tack mr-1"></em> Ordenar por preco</a>
                                     <a class="dropdown-item" ng-click="ordenar('+categoria')">
                                         <em class="fa fa-remove mr-1"></em> Ordenar por categoria</a>
                                 </div>
@@ -115,6 +122,7 @@
                                             <th scope="col">Código de barras</th>
                                             <th scope="col">Fabricante</th>
                                             <th scope="col">Categoria</th>
+                                            <th scope="col">Preço</th>
                                         </tr>
                                     </thead>
 
@@ -125,6 +133,7 @@
                                             <td>{{produto.codigoBarra}}</td>
                                             <td>{{produto.fabricante}}</td>
                                             <td>{{produto.categoria}}</td>
+                                            <td>{{produto.preco}}</td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -135,6 +144,40 @@
             </div>
         </div>
     </div>
+
+    <!-- Modal -->
+  <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+
+          <!-- Form Login -->
+
+          <h5 class="modal-title" id="exampleModalLongTitle">Configurar Preço</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form ng-submit="configPreco(produtoModificado, preco)">
+
+            <div class="col-12 no-padding">
+                <select class="form-control" id="categoriaProduto" ng-model="produtoModificado" ng-options="produto.nome + ' ' + produto.fabricante for produto in produtos">
+                    <option value="">Selecione um produto</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+              <label for="exampleInputPrice">Preço</label>
+              <input ng-model="preco" type="number" step="0.01" class="form-control" id="exampleInputPrice" placeholder="Digite o preço...">
+            </div>
+            
+            <button type="submit" class="btn btn-primary">Confirmar</button>
+          </form>
+        </div>
+        
+        
+  </div>
 
     <!-- Bootstrap JavaScript
     ================================================== -->

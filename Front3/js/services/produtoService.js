@@ -24,4 +24,17 @@ function produtoService($http) {
         });
     }
 
+    this.put = function(produto) {
+      var uri = "http://localhost:8080/api/produto";
+
+      var action = $http({
+        method: 'PUT',
+        url: uri,
+        headers: {"Content-Type": "application/json;charset=UTF-8" },
+        data: produto
+      });
+      console.log(action);
+      return action;
+    }
+
 }
