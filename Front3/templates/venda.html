@@ -34,7 +34,7 @@
                         <div class="card-block">
                             <h3 class="card-title">{{titulo}}</h3>
 
-                            <!-- Formulário para criar um lote -->
+                            <!-- Formulário para vender um produto -->
                             <form class="form-horizontal" ng-submit="cadastrarLote(lote)">
                                 <fieldset>
 
@@ -58,16 +58,16 @@
                                     </div>
 
                                     <div class="form-group">
-                                        <label class="col-12 control-label no-padding">Data de validade</label>
+                                        <label class="col-12 control-label no-padding">Nome do Cliente</label>
 
                                         <div class="col-12 no-padding">
-                                            <input id="validade" ng-model="lote.dataDeValidade" required type="date" placeholder="Data de validade" class="form-control">
+                                            <input id="validade" ng-model="lote.dataDeValidade" required type="text" placeholder="Nome do Cliente" class="form-control">
                                         </div>
                                     </div>
 
                                     <div class="form-group">
                                         <div class="col-12 widget-right no-padding">
-                                            <button type="submit" class="btn btn-primary btn-md float-right">Cadastrar</button>
+                                            <button type="submit" class="btn btn-primary btn-md float-right">Finalizar compra</button>
                                         </div>
                                     </div>
                                 </fieldset>
@@ -80,7 +80,7 @@
                 <div class="col-md-12">
                     <div class="card mb-4" id="listaProdutos">
                         <div class="card-block">
-                            <h3 class="card-title">Lotes cadastrados</h3>
+                            <h3 class="card-title">Registro da ultima venda</h3>
 
                             <div class="dropdown card-title-btn-container">
 
@@ -104,9 +104,9 @@
                                     <thead>
                                         <tr>
                                             <th scope="col">ID</th>
-                                            <th scope="col">Produto</th>
+                                            <th scope="col">Produtos</th>
                                             <th scope="col">Número de unidades</th>
-                                            <th scope="col">Data de validade</th>
+                                            <th scope="col">Preço</th>
 
                                         </tr>
                                     </thead>
@@ -119,6 +119,13 @@
                                             <td>{{lote.dataDeValidade | date:'dd-MM-yyyy'}}</td>
                                         </tr>
                                     </tbody>
+                                    <tfoot>
+                                        <tr>
+                                            <th scope="col">Nome do Cliente: {{registro.nomeCliente}}</th>
+                                            <th scope="col">Data da compra: {{registro.data}}</th>
+                                            <th scope="col">Preço total: {{registro.precoTotal}}</th>
+                                        </tr>
+                                    </tfoot>
                                 </table>
                             </div>
 

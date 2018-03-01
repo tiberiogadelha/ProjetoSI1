@@ -18,6 +18,10 @@ app.config(
                 templateUrl: '/templates/lote.html',
                 controller: 'loteController'
             })
+            .when('/venda', {
+                templateUrl: '/templates/venda.html',
+                controller: 'vendasController'
+            })
             .otherwise({
                 redirectTo: '/'
             });

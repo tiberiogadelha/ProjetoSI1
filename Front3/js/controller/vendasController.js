@@ -4,5 +4,6 @@ vendasController.$inject = ["$scope"];
 
 function vendasController($scope){
 
+    $scope.titulo = "Venda de Produtos"
     
 }

@@ -1,8 +1,8 @@
 app.controller("catalogoController", catalogoController);
 
-catalogoController.$inject = ['$scope', 'produtoService','userService'];
+catalogoController.$inject = ['$scope', 'produtoService', 'userService'];
 
-function catalogoController($scope, produtoService,userService) {
+function catalogoController($scope, produtoService, userService) {
 
 	$scope.titulo = "Lojão";
 
@@ -10,8 +10,8 @@ function catalogoController($scope, produtoService,userService) {
 
 	var carregarProdutos = function () {
 
-		produtoService.get().then(function (data) {			
-			$scope.produtosDisponiveis = data;
+		produtoService.get().then(function (data) {
+			filtrarDisponibilidade(data);
 			console.log("Produtos Carregados!!!")
 		}).catch(function onRejected(errorResponse) {
 			console.log('Erro em produtoService');
@@ -19,19 +19,27 @@ function catalogoController($scope, produtoService,userService) {
 		});
 	}
 
+	var filtrarDisponibilidade = function (produtos) {
+		for (let index = 0; index < produtos.length; index++) {
+			if (produtos[index].situacao == 1) {
+				$scope.produtosDisponiveis.push(produtos[index]);
+			}
+		}
+	}
+
 	$scope.cadastrarUsuario = function (usuario) {
 		userService.cadastrar(usuario);
 		$scope.usuarioCadastravel = {};
-	  }
-	
-	  $scope.login = function (usuario) {
+	}
+
+	$scope.login = function (usuario) {
 		userService.logar(usuario);
-	  }
-	
-	  $scope.logout = function () {
+	}
+
+	$scope.logout = function () {
 		userService.deslogar();
-	  }
-	
+	}
+
 
 	carregarProdutos();
 

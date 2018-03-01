@@ -22,7 +22,16 @@ public class Registro implements Serializable{
 	
 	private BigDecimal precoTotal;
 	private String data;
+	private String nomeCliente;
 	
+
+	public String getNomeCliente() {
+		return nomeCliente;
+	}
+
+	public void setNomeCliente(String nomeCliente) {
+		this.nomeCliente = nomeCliente;
+	}
 
 	@ManyToMany
 	private List<Produto> produtos;
