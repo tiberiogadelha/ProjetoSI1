@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="br" ng-app="myApp">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <!-- Bootstrap core CSS -->
+    <link href="dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!--Fonts-->
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+
+    <!-- Icons -->
+    <link href="css/font-awesome.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="css/style.css" rel="stylesheet">
+
+    <title>Mercado</title>
+</head>
+
+<body ng-controller="produtoController">
+
+    <div class="container">
+        <div class="row">
+            <div "col-md-1">
+                <div ng-include="'/templates/admin.html'"></div>
+            </div>
+            <div class="col-md-11">
+                <div class="col-md-12">
+                    <div class="card mb-4">
+                        <div class="card-block">
+                            <h3 class="card-title">{{titulo}}</h3>
+
+                            <!-- Formulario para cadastrar um produto -->
+                            <form class="form-horizontal" action="" ng-submit="cadastrarProduto(produto)">
+                                <fieldset>
+
+                                    <div class="form-group">
+                                        <label class="col-12 control-label no-padding" for="name">Nome do Produto</label>
+
+                                        <div class="col-12 no-padding">
+                                            <input required id="nome" ng-model="produto.nome" type="text" placeholder="Nome do produto" class="form-control">
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="col-12 control-label no-padding" for="name">Código de barras</label>
+
+                                        <div class="col-12 no-padding">
+                                            <input required id="codigoDeBarra" ng-model="produto.codigoBarra" type="text" placeholder="Código de barra" class="form-control">
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="col-12 control-label no-padding" for="name">Fabricante</label>
+
+                                        <div class="col-12 no-padding">
+                                            <input required id="fabricante" ng-model="produto.fabricante" type="text" placeholder="Fabricante" class="form-control">
+                                        </div>
+                                    </div>
+
+
+                                    <div class="form-group">
+                                        <label class="col-12 control-label no-padding" for="name">Categoria</label>
+
+                                        <div class="col-12 no-padding">
+                                            <input required id="categoria" ng-model="produto.categoria" type="text" placeholder="Categoria" class="form-control">
+                                        </div>
+                                    </div>
+                                    <!-- Form actions -->
+                                    <div class="form-group">
+                                        <div class="col-12 widget-right no-padding">
+                                            <button type="submit" class="btn btn-primary btn-md float-right">Cadastrar</button>
+                                        </div>
+                                    </div>
+
+                                </fieldset>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tabela dos produtos cadastrados no sistema! -->
+                <div class="col-md-12">
+                    <div class="card mb-4" id="listaProdutos">
+                        <div class="card-block">
+                            <h3 class="card-title">Produtos cadastrados</h3>
+
+                            <div class="dropdown card-title-btn-container">
+
+
+                                <button class="btn btn-sm btn-subtle dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <em class="fa fa-cog"></em>
+                                </button>
+
+                                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
+                                    <a class="dropdown-item" ng-click="ordenar('+nome')">
+                                        <em class="fa fa-search mr-1"></em> Ordenar por nome</a>
+                                    <a class="dropdown-item" ng-click="ordenar('+fabricante')">
+                                        <em class="fa fa-thumb-tack mr-1"></em> Ordenar por fabricante</a>
+                                    <a class="dropdown-item" ng-click="ordenar('+categoria')">
+                                        <em class="fa fa-remove mr-1"></em> Ordenar por categoria</a>
+                                </div>
+                            </div>
+
+                            <div class="table-responsive">
+                                <table class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">ID</th>
+                                            <th scope="col">Nome</th>
+                                            <th scope="col">Código de barras</th>
+                                            <th scope="col">Fabricante</th>
+                                            <th scope="col">Categoria</th>
+                                        </tr>
+                                    </thead>
+
+                                    <tbody>
+                                        <tr ng-repeat="produto in produtos | orderBy:tipoDeOrdenacao">
+                                            <td>{{produto.id}}</td>
+                                            <td>{{produto.nome}}</td>
+                                            <td>{{produto.codigoBarra}}</td>
+                                            <td>{{produto.fabricante}}</td>
+                                            <td>{{produto.categoria}}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JavaScript
+    ================================================== -->
+
+    <script src="js/bootstrap/jquery-3.2.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb"
+        crossorigin="anonymous"></script>
+    <script src="dist/js/bootstrap.min.js"></script>
+
+    <script src="js/bootstrap/chart.min.js"></script>
+    <script src="js/bootstrap/chart-data.js"></script>
+    <script src="js/bootstrap/easypiechart.js"></script>
+    <script src="js/bootstrap/easypiechart-data.js"></script>
+    <script src="js/bootstrap/bootstrap-datepicker.js"></script>
+    <script src="js/bootstrap/custom.js"></script>
+
+</body>
+
+</html>

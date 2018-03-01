@@ -39,6 +39,8 @@ function loteController($scope,produtoService, loteService){
     carregarLotes();
 
     $scope.cadastrarLote = function(lote){
+        console.log(lote);
+        
        loteService.post(lote);
         $scope.lote = {};
         carregarLotes();

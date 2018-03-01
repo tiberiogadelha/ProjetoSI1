@@ -12,12 +12,13 @@ import java.util.ArrayList;
 
 @RestController
 @RequestMapping("/usuarios")
+@CrossOrigin
 public class UsuarioResource{
 
     @Autowired
     private UsuarioRepository us;
 
-    @PostMapping()
+    @PostMapping(produces="application/json")
     public ResponseEntity<Usuario> cadastrarUsuario(@RequestBody Usuario usuario) {
     	Usuario usuarioPesquisado = getUsuario(usuario.getNome());
     	if(usuarioPesquisado == null) {
@@ -39,13 +40,23 @@ public class UsuarioResource{
     }
     
 	@GetMapping(value="/{nome}", produces="application/json")
-	public @ResponseBody Usuario getUsuario(@PathVariable(value="nome") String nome){
+	public @ResponseBody Usuario getUsuario(@PathVariable(value="nome") String nome){		System.out.println(nome);
 		Usuario usuario = null;
 		ArrayList<Usuario> usuarios = listaUsuarios();
 		for(int i = 0; i < usuarios.size(); i++) {
 			if(usuarios.get(i).getNome().equals(nome)) {
-				System.out.println(nome);
-				System.out.println(usuarios.get(i).getNome());
+				return usuarios.get(i);
+			}
+		}
+		return usuario;
+	}
+	
+	public Usuario getUser(String nome){
+		System.out.println(nome);
+		Usuario usuario = null;
+		ArrayList<Usuario> usuarios = listaUsuarios();
+		for(int i = 0; i < usuarios.size(); i++) {
+			if(usuarios.get(i).getNome().equals(nome)) {
 				return usuarios.get(i);
 			}
 		}

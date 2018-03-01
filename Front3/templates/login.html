@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="br" ng-app="myApp">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+        crossorigin="anonymous">
+
+    <title>login</title>
+</head>
+
+<body ng-controller="userController">
+
+    {{titulo}}
+
+    <form  ng-submit="login(usuario)">
+        <div class="form-group"></div>
+            <label for="exampleInputEmail1">nome de usuario</label>
+            <input ng-model="usuario.username" type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
+        </div>
+        <div class="form-group">
+            <label for="exampleInputPassword1">Password</label>
+            <input ng-model="usuario.password" type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+
+    <form  ng-submit="cadastrarUsuario(usuario)">
+            <div class="form-group"></div>
+                <label for="exampleInputEmail2">nome de usuario</label>
+                <input ng-model="usuarioCadastravel.nome" type="text" class="form-control" id="exampleInputEmail2" aria-describedby="emailHelp" placeholder="Enter email">
+            </div>
+            <div class="form-group">
+                <label for="exampleInputemail2">email</label>
+                <input ng-model="usuarioCadastravel.email" type="email" class="form-control" id="exampleInputemail2" placeholder="Password">
+            </div>
+            <div class="form-group">
+                    <label for="exampleInputPassword2">Password</label>
+                    <input ng-model="usuarioCadastravel.senha" type="password" class="form-control" id="exampleInputPassword2" placeholder="Password">
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular-route.js"></script>
+
+    <script src="js/module.js"></script>
+    <script src="js/config/config.js"></script>
+    <script src="js/services/userService.js"></script>
+    <script src="js/controller/userController.js"></script>
+
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+
+</body>
+
+</html>

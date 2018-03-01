@@ -1,17 +1,22 @@
 app.config(
     function ($routeProvider) {
         $routeProvider
-            .when('/produto', {
-                templateUrl: 'produto.html',
+            .when('/', {
+                templateUrl: '/templates/catalogo.html',
+                controller: 'catalogoController'
+            })
+            .when('/admin', {
+                templateUrl: '/templates/admin.html',
+                controller: 'userController'
+            })
+            .
+            when('/produto', {
+                templateUrl: '/templates/produto.html',
                 controller: 'produtoController'
             })
             .when('/lote', {
-                templateUrl: 'lote.html',
+                templateUrl: '/templates/lote.html',
                 controller: 'loteController'
-            })
-            .when('/catalogo', {
-                templateUrl: 'catalogo.html',
-                controller: 'catalogoController'
             })
             .otherwise({
                 redirectTo: '/'

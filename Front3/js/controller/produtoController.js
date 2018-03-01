@@ -9,9 +9,6 @@ function produtoController($scope,produtoService){
     $scope.titulo = "Cadastro de Produtos"
     $scope.produtos = [];
 
-    
-
-    
     var carregarProdutos = function () {
 
 		produtoService.get().then(function (data) {
@@ -22,8 +19,6 @@ function produtoController($scope,produtoService){
 			console.log('status: ', errorResponse.status);
 		});
     }
-
-    
 
     $scope.cadastrarProduto = function (produto) {
     
