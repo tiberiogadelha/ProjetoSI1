@@ -34,47 +34,58 @@
                         <div class="card-block">
                             <h3 class="card-title">{{titulo}}</h3>
 
-                            <!-- Formulário para vender um produto -->
-                            <form class="form-horizontal" ng-submit="cadastrarLote(lote)">
-                                <fieldset>
+                            <div class="form-group">
+                                <label class="col-12 control-label no-padding">Nome do Cliente</label>
 
-                                    <div class="form-group">
-                                        <label class="col-12 control-label no-padding" for="name">Produto</label>
+                                <div class="col-12 no-padding">
+                                    <input id="validade" ng-model="registro.nomeCliente" required type="text" placeholder="Nome do Cliente" class="form-control">
+                                </div>
+                            </div>
 
-                                        <div class="col-12 no-padding">
-                                            <select class="form-control" id="categoriaProduto" ng-model="lote.produto" ng-options="produto.nome + ' ' + produto.fabricante for produto in produtos">
-                                                <option value="">Selecione um produto</option>
-                                            </select>
-                                        </div>
-                                    </div>
+                            <div class="form-group">
+                                <label class="col-12 control-label no-padding" for="name">Produto</label>
 
+                                <div class="col-12 no-padding">
+                                    <select class="form-control" id="categoriaProduto" ng-model="produto" ng-options="produto.nome + ' ' + produto.fabricante for produto in produtos">
+                                        <option value="">Selecione um produto</option>
+                                    </select>
+                                </div>
+                            </div>
 
-                                    <div class="form-group">
-                                        <label class="col-12 control-label no-padding">Número de unidades</label>
+                            <div class="form-group">
+                                <div class="col-12 widget-right">
+                                    <button class="btn btn-primary btn-md float-right" ng-click="venderProdutos()">Finalizar Compra</button>
+                                </div>
+                            </div>
 
-                                        <div class="col-12 no-padding">
-                                            <input id="quantidade" ng-model="lote.numeroDeItens" required type="number" placeholder="Número de unidades" class="form-control">
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group">
-                                        <label class="col-12 control-label no-padding">Nome do Cliente</label>
-
-                                        <div class="col-12 no-padding">
-                                            <input id="validade" ng-model="lote.dataDeValidade" required type="text" placeholder="Nome do Cliente" class="form-control">
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group">
-                                        <div class="col-12 widget-right no-padding">
-                                            <button type="submit" class="btn btn-primary btn-md float-right">Finalizar compra</button>
-                                        </div>
-                                    </div>
-                                </fieldset>
-                            </form>
+                            <div class="form-group">
+                                <div class="col-12 widget-right">
+                                    <button ng-click="adicionarNoCarrinho(produto)" class="btn btn-primary btn-md float-right addCarrinho">Adicionar no carrinho</button>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
+                <section class="row">
+
+                    <div class="col-12">
+                        <h3 class="mb-4">Produtos no carrinho</h3>
+                    </div>
+
+                    <div class="col-lg-4 mb-4" ng-repeat="produto in produtosCarrinho track by $index">
+                        <div class="card">
+                            <div class="card-header">
+                                <strong>{{produto.nome}}</strong>
+                            </div>
+
+                            <div class="card-block">
+                                <p>Preço: {{produto.preco}}</p>
+                                <p>Quantidade:</p>
+                            </div>
+                        </div>
+                    </div>
+
+                </section>
 
                 <!-- Tabela com os lotes cadastrados no sistema! -->
                 <div class="col-md-12">

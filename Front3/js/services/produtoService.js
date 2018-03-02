@@ -25,16 +25,14 @@ function produtoService($http) {
     }
 
     this.put = function(produto) {
-      var uri = "http://localhost:8080/api/produto";
 
-      var action = $http({
-        method: 'PUT',
-        url: uri,
-        headers: {"Content-Type": "application/json;charset=UTF-8" },
-        data: produto
+    $http.put("http://localhost:8080/api/produto", produto).then(function (data) {
+        return produto;
+      }).catch(function (response) {
+        console.error('Erro ao modificar no sistema', response.status, response.data);
+        window.alert("Erro ao modificar produto!");
+        return response.status;
       });
-      console.log(action);
-      return action;
-    }
 
+    }
 }

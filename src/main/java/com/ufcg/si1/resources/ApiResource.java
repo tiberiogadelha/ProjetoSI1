@@ -79,7 +79,7 @@ public class ApiResource {
 		return new ResponseEntity<Produto>(produto, HttpStatus.OK);
 	}
 
-	@PutMapping(produces="application/json")
+	@PutMapping(value="/produto",produces="application/json")
 	public ResponseEntity<Produto> updateProduto(@RequestBody @Valid Produto produto) {
 
 		Produto currentProduto = getProduto(produto.getId());
@@ -92,7 +92,7 @@ public class ApiResource {
 		currentProduto.setCodigoBarra(produto.getCodigoBarra());
 		currentProduto.mudaFabricante(produto.getFabricante());
 		currentProduto.mudaCategoria(produto.getCategoria());
-
+		
 		produtoRepository.save(currentProduto);
 		return new ResponseEntity<Produto>(currentProduto, HttpStatus.OK);
 	}
@@ -143,7 +143,7 @@ public class ApiResource {
 
 		try {
 			if (produto.getSituacao() == Produto.INDISPONIVEL) {
-				if (loteDTO.getNumeroDeItens() > 0) {
+				if (loteDTO.getNumeroDeItens() > 0 && produto.getPreco().doubleValue() > 0) {
 					Produto produtoDisponivel = produto;
 					produtoDisponivel.situacao = Produto.DISPONIVEL;
 					produtoRepository.save(produtoDisponivel);
