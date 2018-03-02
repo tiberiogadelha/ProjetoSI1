@@ -42,10 +42,11 @@ public class Registro implements Serializable{
 		this.precoTotal = new BigDecimal(0);
 	}
 	
-	public Registro (String data, List<Produto> produtos) {
+	public Registro (String data, String nomeCliente, List<Produto> produtos) {
 		this.precoTotal = new BigDecimal(0);
 		this.data = data;
 		this.produtos = produtos;
+		this.nomeCliente = nomeCliente;
 	}
 
 	public BigDecimal getPrecoTotal() {

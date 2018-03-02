@@ -34,10 +34,19 @@ public class RegistroResource {
 		}
 		return new ResponseEntity<List<Registro>>(registros, HttpStatus.OK);
 	}
+	
+	@GetMapping(value="ultimo",produces="application/json")
+	public ResponseEntity<Registro> ultimoRegistro() {
+		List<Registro> registros = registroRepository.findAll();
+		if(registros.isEmpty()) {
+			return new ResponseEntity<Registro>(HttpStatus.NOT_FOUND);
+		}
+		return new ResponseEntity<Registro>(registros.get(registros.size() -1), HttpStatus.OK);
+	}
 
 	@PostMapping(produces="application/json")
 	public ResponseEntity<Registro> registrar(@RequestBody Registro registro) {
-		Registro registroNovo = new Registro(registro.getData(),registro.getProdutos());
+		Registro registroNovo = new Registro(registro.getData(),registro.getNomeCliente(),registro.getProdutos());
 		BigDecimal precoTotal = new BigDecimal(0);
 		for (Produto produto : registro.getProdutos()) {
 			precoTotal = precoTotal.add(produto.getPreco());

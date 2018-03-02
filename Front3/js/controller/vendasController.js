@@ -1,12 +1,13 @@
 angular.module("myApp").controller("vendasController", vendasController);
 
-vendasController.$inject = ['$scope', 'produtoService'];
+vendasController.$inject = ['$scope', 'produtoService','registroService'];
 
-function vendasController($scope, produtoService) {
+function vendasController($scope, produtoService,registroService) {
 
     $scope.titulo = "Venda de Produtos"
     $scope.produtos = [];
     $scope.produtosCarrinho = [];
+    $scope.ultimoRegistro = {};
 
     var carregarProdutos = function () {
 
@@ -22,9 +23,24 @@ function vendasController($scope, produtoService) {
     $scope.venderProdutos = function () {
         if ($scope.produtosCarrinho[0] == null) {
             window.alert("Nenhum produto no carrinho");
+        }else {
+            registro = {};
+            registro.nomeCliente = $scope.registro.nomeCliente
+            registro.data = new Date();
+            registro.produtos = $scope.produtosCarrinho;
+            registroService.post(registro);
         }
-        console.log($scope.produtosCarrinho);
+    }
 
+    var ultimoRegistro = function () {
+
+        registroService.getUltimo().then(function (data) {            
+            $scope.ultimoRegistro = data;
+            console.log("Registro Carregado!!!")
+        }).catch(function onRejected(errorResponse) {
+            console.log('Erro em registroService');
+            console.log('status: ', errorResponse.status);
+        });
     }
 
     $scope.adicionarNoCarrinho = function (produto) {
@@ -36,4 +52,5 @@ function vendasController($scope, produtoService) {
     }
 
     carregarProdutos();
+    ultimoRegistro();
 }

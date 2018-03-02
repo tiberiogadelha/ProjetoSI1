@@ -59,8 +59,8 @@
                             </div>
 
                             <div class="form-group">
-                                <div class="col-12 widget-right">
-                                    <button ng-click="adicionarNoCarrinho(produto)" class="btn btn-primary btn-md float-right addCarrinho">Adicionar no carrinho</button>
+                                <div class="col-12 addCarrinho">
+                                    <button ng-click="adicionarNoCarrinho(produto)" class="btn btn-primary btn-md float-right">Adicionar no carrinho</button>
                                 </div>
                             </div>
                         </div>
@@ -80,7 +80,6 @@
 
                             <div class="card-block">
                                 <p>Preço: {{produto.preco}}</p>
-                                <p>Quantidade:</p>
                             </div>
                         </div>
                     </div>
@@ -116,25 +115,22 @@
                                         <tr>
                                             <th scope="col">ID</th>
                                             <th scope="col">Produtos</th>
-                                            <th scope="col">Número de unidades</th>
                                             <th scope="col">Preço</th>
-
                                         </tr>
                                     </thead>
 
                                     <tbody>
-                                        <tr ng-repeat="lote in lotes | orderBy:tipoDeOrdenacao">
-                                            <td>{{lote.id}}</td>
-                                            <td>{{lote.produto.nome + ' ' + lote.produto.fabricante}}</td>
-                                            <td>{{lote.numeroDeItens}}</td>
-                                            <td>{{lote.dataDeValidade | date:'dd-MM-yyyy'}}</td>
+                                        <tr ng-repeat="produto in ultimoRegistro.produtos | orderBy:tipoDeOrdenacao">
+                                            <td>{{produto.id}}</td>
+                                            <td>{{produto.nome + ' ' + produto.produto.fabricante}}</td>
+                                            <td>{{produto.preco}}</td>
                                         </tr>
                                     </tbody>
                                     <tfoot>
                                         <tr>
-                                            <th scope="col">Nome do Cliente: {{registro.nomeCliente}}</th>
-                                            <th scope="col">Data da compra: {{registro.data}}</th>
-                                            <th scope="col">Preço total: {{registro.precoTotal}}</th>
+                                            <th scope="col">Nome do Cliente: {{ultimoRegistro.nomeCliente}}</th>
+                                            <th scope="col">Data da compra: {{ultimoRegistro.data | date:'dd-MM-yyyy'}}</th>
+                                            <th scope="col">Preço total: {{ultimoRegistro.precoTotal}}</th>
                                         </tr>
                                     </tfoot>
                                 </table>
