@@ -1,8 +1,6 @@
 package com.ufcg.si1.resources;
 
-import java.math.BigDecimal;
 import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,7 +22,10 @@ public class RegistroResource {
 
 	@Autowired
 	private RegistroRepository registroRepository;
-	
+
+	@Autowired
+	private ApiResource ApiResource;
+
 	@GetMapping(produces="application/json")
 	public ResponseEntity<List<Registro>> listarRegistros() {
 		List<Registro> registros = registroRepository.findAll();
@@ -34,7 +35,7 @@ public class RegistroResource {
 		}
 		return new ResponseEntity<List<Registro>>(registros, HttpStatus.OK);
 	}
-	
+
 	@GetMapping(value="ultimo",produces="application/json")
 	public ResponseEntity<Registro> ultimoRegistro() {
 		List<Registro> registros = registroRepository.findAll();
@@ -45,15 +46,11 @@ public class RegistroResource {
 	}
 
 	@PostMapping(produces="application/json")
-	public ResponseEntity<Registro> registrar(@RequestBody Registro registro) {
-		Registro registroNovo = new Registro(registro.getData(),registro.getNomeCliente(),registro.getProdutos());
-		BigDecimal precoTotal = new BigDecimal(0);
-		for (Produto produto : registro.getProdutos()) {
-			precoTotal = precoTotal.add(produto.getPreco());
+	public void registrar(@RequestBody Registro registro) {
+		List<Produto> produtos = registro.getProdutos();
+		for (int i = 0; i < produtos.size(); i++) {
+			ApiResource.removerDoLote(produtos.get(i).getId());
 		}
-		registroNovo.setPrecoTotal(precoTotal);
-		registroRepository.save(registroNovo);
-		return new ResponseEntity<Registro>(HttpStatus.ACCEPTED);
-	}
-	
+	}	
+
 }

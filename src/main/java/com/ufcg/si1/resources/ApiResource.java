@@ -157,7 +157,7 @@ public class ApiResource {
 	}
 
 	@GetMapping(value="/lote", produces="application/json")
-	public ResponseEntity<List<Lote>> listAllLotess() {
+	public ResponseEntity<List<Lote>> listarAllLotes() {
 		List<Lote> lotes = loteRepository.findAll();
 
 		if (lotes.isEmpty()) {
@@ -167,40 +167,41 @@ public class ApiResource {
 	}
 
 	@DeleteMapping(value="/lote/{id}")
-	public ResponseEntity<Lote> removerDoLote(@PathVariable("id") long produtoId, Integer quantidadeItens){
-		System.out.println(quantidadeItens);
-		Lote lote = buscarLote(produtoId);
-		int totalRemovido = lote.getNumeroDeItens() - quantidadeItens;
-
-		if(totalRemovido < 0) {
-			return new ResponseEntity<Lote>(HttpStatus.NO_CONTENT);
-		} else if(totalRemovido == 0){
-			loteRepository.delete(lote);
-			return new ResponseEntity<Lote>(HttpStatus.ALREADY_REPORTED);
-
-		} else {
-			lote.setNumeroDeItens(totalRemovido);
-			loteRepository.save(lote);
+	public ResponseEntity<Lote> removerDoLote(@PathVariable("id") long produtoId){
+		List<Lote> lotes = buscarLotesDoProduto(produtoId);
+		for(Lote lote : lotes) {
+			System.out.println(lote.getProduto().getNome());
+		}
+		if(removerDoLote(lotes,0) == 0) {
 			return new ResponseEntity<Lote>(HttpStatus.ACCEPTED);
-
 		}
+		
+		Produto produto = getProduto(produtoId);
+		produto.situacao = Produto.INDISPONIVEL;
+		return new ResponseEntity<Lote>(HttpStatus.NOT_FOUND);
 	}
-
-	private Lote buscarLote(long produtoId) {
-		Lote lote = null;
-		for(Lote l : listarLotes()) {
-			if(l.getId() == produtoId) {
-				lote = l;
+	
+	private int removerDoLote(List<Lote> lotes,int indice) {
+		Lote lote = lotes.get(indice);
+		int quantidadeItens = lote.getNumeroDeItens();
+		if(quantidadeItens > 0) {
+			lote.setNumeroDeItens(quantidadeItens -=1);
+			loteRepository.save(lote);
+			return 0;
+		}else{
+			if (lotes.get(indice ++) != null) {
+				removerDoLote(lotes,indice++);
 			}
+			return -1;
 		}
-		return lote;
 	}
-
-	private ArrayList<Lote> listarLotes() {
-		Iterable<Lote> listaLotes = loteRepository.findAll();
-		ArrayList<Lote> lotes = new ArrayList<Lote>();
-		for(Lote lote : listaLotes){
-			lotes.add(lote);
+	
+	private List<Lote> buscarLotesDoProduto(long produtoId) {
+		List<Lote> lotes = new ArrayList<Lote>();
+		for(Lote l : loteRepository.findAll()) {
+			if(l.getProduto().getId() == produtoId) {
+				lotes.add(l);
+			}
 		}
 		return lotes;
 	}
