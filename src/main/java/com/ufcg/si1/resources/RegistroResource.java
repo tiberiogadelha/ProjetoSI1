@@ -1,5 +1,6 @@
 package com.ufcg.si1.resources;
 
+import java.math.BigDecimal;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ufcg.si1.model.Categoria;
 import com.ufcg.si1.model.Produto;
 import com.ufcg.si1.model.Registro;
 import com.ufcg.si1.repository.RegistroRepository;
@@ -48,9 +50,19 @@ public class RegistroResource {
 	@PostMapping(produces="application/json")
 	public void registrar(@RequestBody Registro registro) {
 		List<Produto> produtos = registro.getProdutos();
+		List<Categoria> categorias = registro.getCategorias();
+		Registro registroNovo = new Registro(registro.getData(),registro.getNomeCliente(),registro.getProdutos(),registro.getCategorias());
+		BigDecimal precoTotal = new BigDecimal(0); 
 		for (int i = 0; i < produtos.size(); i++) {
 			ApiResource.removerDoLote(produtos.get(i).getId());
+			for (int j = 0; j < categorias.size(); j++){
+				if(produtos.get(i).getCategoria().getNome().equals(categorias.get(j).getNome())) {			
+					precoTotal.add(produtos.get(i).getPreco().multiply(categorias.get(j).getDesconto()));
+			}
 		}
+		
+		registroNovo.setPrecoTotal(precoTotal);		
+		registroRepository.save(registroNovo);
 	}	
 
 }

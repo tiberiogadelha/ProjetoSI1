@@ -26,7 +26,7 @@ public class Produto implements Serializable{
 
 	private String fabricante;
 
-	private String categoria;
+	private Categoria categoria;
 	
 	public int situacao; // usa variaveis estaticas abaixo
 	/* situacoes do produto */
@@ -38,13 +38,13 @@ public class Produto implements Serializable{
 	}
 
 	public Produto(long id, String nome, String codigoBarra, String fabricante,
-			String nomeCategoria) {
+			Categoria categoria) {
 		this.id = id;
 		this.nome = nome;
 		this.preco = new BigDecimal(0);
 		this.codigoBarra = codigoBarra;
 		this.fabricante = fabricante;
-		this.categoria = nomeCategoria;
+		this.categoria = categoria;
 		this.situacao = Produto.INDISPONIVEL;
 	}
 
@@ -88,14 +88,23 @@ public class Produto implements Serializable{
 		this.codigoBarra = codigoBarra;
 	}
 
-	public String getCategoria() {
-		return this.categoria;
+		
+	public Categoria getCategoria() {
+		return categoria;
 	}
 
-	public void mudaCategoria(String categoria) {
+	public void setCategoria(Categoria categoria) {
 		this.categoria = categoria;
 	}
-		
+
+	public void setNome(String nome) {
+		this.nome = nome;
+	}
+
+	public void setFabricante(String fabricante) {
+		this.fabricante = fabricante;
+	}
+
 	public void mudaSituacao(int situacao) throws ObjetoInvalidoException {
 		switch (situacao) {
 		case 1:
