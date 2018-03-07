@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="br" ng-app="myApp">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <!-- Bootstrap core CSS -->
+    <link href="dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!--Fonts-->
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+
+    <!-- Icons -->
+    <link href="css/font-awesome.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="css/style.css" rel="stylesheet">
+
+    <title>Mercado</title>
+</head>
+
+<body ng-controller="categoriaController">
+
+    <div class="container">
+        <div class="row">
+            <div "col-md-1">
+                <div ng-include="'/templates/admin.html'"></div>
+            </div>
+
+            <div class="col-md-11">
+                <div class="col-md-12">
+                    <div class="card mb-4">
+                        <div class="card-block">
+                            <h3 class="card-title">{{titulo}}</h3>
+
+                            <!-- Formulario para definir desconto -->
+                            <form class="form-horizontal" action="" ng-submit="definirDesconto(categoria, tipoDeDesconto)">
+                                    <fieldset>
+                                        <div class="form-group">
+                                                <select class="form-control" id="categoria" ng-model="categoria" ng-options="categoria.tipo for categoria in categorias">
+                                                        <option value="">Selecione uma categoria</option>
+                                                </select>
+                                        </div>
+
+                                        <div class="form-group">
+                                                <select class="form-control" id="tipoDesconto" ng-model="tipoDeDesconto" ng-options="desconto.tipo for desconto in descontos">
+                                                        <option value="">Selecione um tipo de desconto</option>
+                                                </select>
+                                        </div>
+                                        <!-- Form actions -->
+                                        <div class="form-group">
+                                            <div class="col-12 widget-right no-padding">
+                                                <button type="submit" class="btn btn-primary btn-md float-right">Definir Desconto</button>
+                                            </div>
+                                        </div>
+    
+                                    </fieldset>
+                                </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JavaScript
+    ================================================== -->
+
+    <script src="js/bootstrap/jquery-3.2.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb"
+        crossorigin="anonymous"></script>
+    <script src="dist/js/bootstrap.min.js"></script>
+
+    <script src="js/bootstrap/chart.min.js"></script>
+    <script src="js/bootstrap/chart-data.js"></script>
+    <script src="js/bootstrap/easypiechart.js"></script>
+    <script src="js/bootstrap/easypiechart-data.js"></script>
+    <script src="js/bootstrap/bootstrap-datepicker.js"></script>
+    <script src="js/bootstrap/custom.js"></script>
+
+</body>
+
+</html>

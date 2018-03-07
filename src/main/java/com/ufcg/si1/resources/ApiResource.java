@@ -169,9 +169,7 @@ public class ApiResource {
 	@DeleteMapping(value="/lote/{id}")
 	public ResponseEntity<Lote> removerDoLote(@PathVariable("id") long produtoId){
 		List<Lote> lotes = buscarLotesDoProduto(produtoId);
-		for(Lote lote : lotes) {
-			System.out.println(lote.getProduto().getNome());
-		}
+		
 		if(removerDoLote(lotes,0) == 0) {
 			return new ResponseEntity<Lote>(HttpStatus.ACCEPTED);
 		}

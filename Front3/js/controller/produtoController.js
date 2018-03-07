@@ -10,6 +10,7 @@ function produtoController($scope,produtoService){
     $scope.produtos = [];
     $scope.preco = 0.0;
     $scope.produtoModificado = {};
+    $scope.categorias = ["Alimenticio", "Higiene", "Bebida", "Limpeza", "Hortifruti"];
 
     var carregarProdutos = function () {
 

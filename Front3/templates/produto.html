@@ -64,11 +64,12 @@
 
 
                                     <div class="form-group">
-                                        <label class="col-12 control-label no-padding" for="name">Categoria</label>
+                                            <select class="form-control" id="categoriaProduto1" ng-model="produto.categoria" ng-options="categoria for categoria in categorias">
+                                                    <option value="">Selecione uma categoria</option>
+                                            </select>
+                        
 
-                                        <div class="col-12 no-padding">
-                                            <input required id="categoria" ng-model="produto.categoria" type="text" placeholder="Categoria" class="form-control">
-                                        </div>
+                            
                                     </div>
                                     <!-- Form actions -->
                                     <div class="form-group">

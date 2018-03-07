@@ -22,6 +22,10 @@ app.config(
                 templateUrl: '/templates/venda.html',
                 controller: 'vendasController'
             })
+            .when('/descontos', {
+                templateUrl: '/templates/descontos.html',
+                controller: 'categoriaController'
+            })
             .otherwise({
                 redirectTo: '/'
             });
