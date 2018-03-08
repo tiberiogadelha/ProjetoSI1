@@ -58,11 +58,12 @@ public class RegistroResource {
 			for (int j = 0; j < categorias.size(); j++){
 				if(produtos.get(i).getCategoria().getNome().equals(categorias.get(j).getNome())) {			
 					precoTotal.add(produtos.get(i).getPreco().multiply(categorias.get(j).getDesconto()));
+				}
 			}
-		}
-		
-		registroNovo.setPrecoTotal(precoTotal);		
-		registroRepository.save(registroNovo);
-	}	
 
+			registroNovo.setPrecoTotal(precoTotal);		
+			registroRepository.save(registroNovo);
+		}	
+
+	}
 }

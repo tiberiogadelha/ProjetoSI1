@@ -91,7 +91,7 @@ public class ApiResource {
 		currentProduto.setPreco(produto.getPreco());
 		currentProduto.setCodigoBarra(produto.getCodigoBarra());
 		currentProduto.mudaFabricante(produto.getFabricante());
-		currentProduto.mudaCategoria(produto.getCategoria());
+		currentProduto.setCategoria(produto.getCategoria());
 		
 		produtoRepository.save(currentProduto);
 		return new ResponseEntity<Produto>(currentProduto, HttpStatus.OK);
