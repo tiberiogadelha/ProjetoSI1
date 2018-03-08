@@ -5,9 +5,9 @@ app.config(
                 templateUrl: '/templates/catalogo.html',
                 controller: 'catalogoController'
             })
-            .when('/admin', {
-                templateUrl: '/templates/admin.html',
-                controller: 'userController'
+            .when('/dashboard', {
+                templateUrl: '/templates/dashboard.html',
+                controller: 'dashBoardController'
             })
             .
             when('/produto', {

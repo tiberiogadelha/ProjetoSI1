@@ -36,11 +36,5 @@ function catalogoController($scope, produtoService, userService) {
 		userService.logar(usuario);
 	}
 
-	$scope.logout = function () {
-		userService.deslogar();
-	}
-
-
 	carregarProdutos();
-
 }

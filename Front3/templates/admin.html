@@ -22,7 +22,7 @@
 </head>
 
 <body>
-    
+
     <nav class="sidebar col-xs-12 col-sm-4 col-lg-3 col-xl-2 bg-faded sidebar-style-1">
         <h1 class="site-title">
             <a href="#/">
@@ -35,14 +35,22 @@
 
         <ul class="nav nav-pills flex-column sidebar-nav">
             <li class="nav-item">
-                <a class="nav-link active" href="#/produto">
-                    <em class="fa fa-dashboard"></em> Produto
+                <a class="nav-link active" href="#/dashboard" style="cursor:pointer">
+                    <em class="fa fa-dashboard"></em> DashBoard
                     <span class="sr-only">(current)</span>
                 </a>
             </li>
             <li class="nav-item">
+                <a class="nav-link" href="#/produto">
+                    <em class="fa fa-calendar-o"></em> Produto</a>
+            </li>
+            <li class="nav-item">
                 <a class="nav-link" href="#/lote">
                     <em class="fa fa-calendar-o"></em> Lote</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#/descontos">
+                    <em class="fa fa-clone"></em> Configurar Descontos</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="#/venda">
@@ -53,17 +61,8 @@
                 <a class="nav-link" href="">
                     <em class="fa fa-clone"></em> Relatórios</a>
             </li>
-
-            <li class="nav-item">
-                <a class="nav-link" href="#/descontos">
-                    <em class="fa fa-clone"></em> Configurar Descontos</a>
-            </li>
-
         </ul>
-
-        <a href="#/" class="logout-button" ng-click="logout()">
-            <em class="fa fa-power-off"></em> Signout</a>
-    </nav>  
+    </nav>
 
     <!-- Bootstrap JavaScript
     ================================================== -->

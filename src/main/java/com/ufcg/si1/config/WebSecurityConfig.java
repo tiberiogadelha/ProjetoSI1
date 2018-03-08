@@ -23,10 +23,10 @@ import com.ufcg.si1.repository.UsuarioRepository;
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
-	
+
 	@Autowired
 	UsuarioRepository usuarioRepository;
-	
+
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http.cors().and().csrf().disable()
@@ -39,17 +39,16 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		.antMatchers(HttpMethod.POST, "/login").permitAll()
 		.anyRequest().authenticated()
 		.and()
-			
+
 		// filtra requisições de login
 		.addFilterBefore(new JWTLoginFilter("/login", authenticationManager()),
-                UsernamePasswordAuthenticationFilter.class)
-		
+				UsernamePasswordAuthenticationFilter.class)
+
 		// filtra outras requisições para verificar a presença do JWT no header
 		.addFilterBefore(new JWTAuthenticationFilter(),
-                UsernamePasswordAuthenticationFilter.class);
-	
+				UsernamePasswordAuthenticationFilter.class);
 	}
-	
+
 
 	@Bean
 	public WebMvcConfigurer corsConfigurer() {
@@ -61,7 +60,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		};
 	}
 
-	
+
 	@Bean
 	protected
 	UserDetailsService userDetailsService() {
@@ -83,5 +82,5 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 		};
 	}
-	
+
 }

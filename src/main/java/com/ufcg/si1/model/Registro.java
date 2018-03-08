@@ -23,6 +23,8 @@ public class Registro implements Serializable{
 	private BigDecimal precoTotal;
 	private String data;
 	private String nomeCliente;
+	
+	@ManyToMany
 	private List<Categoria> categorias;
 
 	public List<Categoria> getCategorias() {
