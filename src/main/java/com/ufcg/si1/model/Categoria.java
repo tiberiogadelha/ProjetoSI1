@@ -1,12 +1,15 @@
 package com.ufcg.si1.model;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
-
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import com.ufcg.si1.model.strategy.BomDesconto;
+import com.ufcg.si1.model.strategy.Desconto;
+import com.ufcg.si1.model.strategy.OtimoDesconto;
+import com.ufcg.si1.model.strategy.SemDesconto;
+import com.ufcg.si1.model.strategy.SuperDesconto;
 
 @Entity
 public class Categoria implements Serializable{
@@ -18,16 +21,11 @@ public class Categoria implements Serializable{
 	private long id;
 	
 	private String nome;
-	private BigDecimal desconto;
+	private Desconto desconto;
 
-	public Categoria (String nome, BigDecimal desconto) {
-		this.nome = nome;
-		this.desconto = desconto;
-	}
-	
 	public Categoria (String nome) {
 		this.nome = nome;
-		this.desconto = new BigDecimal(0);
+		desconto = new SemDesconto();
 	}
 	
 	public String getNome() {
@@ -36,11 +34,31 @@ public class Categoria implements Serializable{
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
-	public BigDecimal getDesconto() {
+
+	public Desconto getDesconto() {
 		return desconto;
 	}
-	public void setDesconto(BigDecimal desconto) {
-		this.desconto = desconto;
+
+	public long getId() {
+		return id;
 	}
+
+
+	public void setDescontoSemDesconto() {
+		this.desconto = new SemDesconto();
+	}
+	
+	public void setDescontoBomDesconto() {
+		this.desconto = new BomDesconto();
+	}
+
+	public void setDescontoOtimoDesconto() {
+		this.desconto = new OtimoDesconto();
+	}
+
+	public void setDescontoSuperDesconto() {
+		this.desconto = new SuperDesconto();
+	}
+
 
 }

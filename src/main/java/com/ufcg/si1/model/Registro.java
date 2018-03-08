@@ -23,17 +23,6 @@ public class Registro implements Serializable{
 	private BigDecimal precoTotal;
 	private String data;
 	private String nomeCliente;
-	
-	@ManyToMany
-	private List<Categoria> categorias;
-
-	public List<Categoria> getCategorias() {
-		return categorias;
-	}
-
-	public void setCategorias(List<Categoria> categorias) {
-		this.categorias = categorias;
-	}
 
 	public String getNomeCliente() {
 		return nomeCliente;
@@ -52,11 +41,10 @@ public class Registro implements Serializable{
 		this.precoTotal = new BigDecimal(0);
 	}
 	
-	public Registro (String data, String nomeCliente, List<Produto> produtos,List<Categoria> categorias) {
+	public Registro (String data, String nomeCliente, List<Produto> produtos) {
 		this.precoTotal = new BigDecimal(0);
 		this.data = data;
 		this.produtos = produtos;
-		this.categorias = categorias;
 		this.nomeCliente = nomeCliente;
 	}
 
