@@ -223,7 +223,7 @@ public class ApiResource {
 		return new ResponseEntity<List<Lote>>(lotesVencidos,HttpStatus.ACCEPTED);
 	}
 	
-	@GetMapping(value="/produtoemfalta")
+	@GetMapping(value="/produtoacabando")
 	public ResponseEntity<List<Lote>> listaDeProdutosQuaseEmFalta(){
 		ArrayList<Lote> lotesEmFalta = new ArrayList<Lote>();
 		List<Lote> listaDeLotes = (List<Lote>) listaDeLotes();
@@ -274,7 +274,7 @@ public class ApiResource {
 	}
 
 	public void extornarProduto(Produto produto) {
-		// TODO Auto-generated method stub
+		ArrayList<Lote> lotes = (ArrayList<Lote>) buscarLotesDoProduto(produto.getId());
 		
 	}
 
