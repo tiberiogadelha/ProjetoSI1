@@ -223,6 +223,19 @@ public class ApiResource {
 		return new ResponseEntity<List<Lote>>(lotesVencidos,HttpStatus.ACCEPTED);
 	}
 	
+	@GetMapping(value="/produtoemfalta")
+	public ResponseEntity<List<Lote>> listaDeProdutosQuaseEmFalta(){
+		ArrayList<Lote> lotesEmFalta = new ArrayList<Lote>();
+		List<Lote> listaDeLotes = (List<Lote>) listaDeLotes();
+		for (int i = 0; i < listaDeLotes.size(); i++) {
+			if(listaDeLotes.get(i).getNumeroDeItens() <= 15) {
+				lotesEmFalta.add(listaDeLotes.get(i));
+			}
+		} 
+		return new ResponseEntity<List<Lote>>(lotesEmFalta,HttpStatus.ACCEPTED);
+	}
+	
+	
 	@GetMapping(value="/lotevencido")
 	public ResponseEntity<List<Lote>> listaDeLotesVencidos(){
 		ArrayList<Lote> lotesVencidos = new ArrayList<Lote>();
