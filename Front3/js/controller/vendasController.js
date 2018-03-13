@@ -13,7 +13,7 @@ function vendasController($scope, produtoService,registroService) {
 
         produtoService.get().then(function (data) {
             $scope.produtos = data;
-            console.log("Produtos Carregados!!!")
+            console.log("Produtos finalmente carregados!!!")
         }).catch(function onRejected(errorResponse) {
             console.log('Erro em produtoService');
             console.log('status: ', errorResponse.status);
@@ -22,7 +22,7 @@ function vendasController($scope, produtoService,registroService) {
 
     $scope.venderProdutos = function () {
         if ($scope.produtosCarrinho[0] == null) {
-            window.alert("Nenhum produto no carrinho");
+            window.alert("Nenhum produto no carrinho :(");
         }else {
             registro = {};
             registro.nomeCliente = $scope.registro.nomeCliente
@@ -34,9 +34,9 @@ function vendasController($scope, produtoService,registroService) {
 
     var ultimoRegistro = function () {
 
-        registroService.getUltimo().then(function (data) {            
+        registroService.getUltimo().then(function (data) {
             $scope.ultimoRegistro = data;
-            console.log("Registro Carregado!!!")
+            console.log("Registro finalmente carregado!!!")
         }).catch(function onRejected(errorResponse) {
             console.log('Erro em registroService');
             console.log('status: ', errorResponse.status);
@@ -47,7 +47,7 @@ function vendasController($scope, produtoService,registroService) {
         if (produto != null) {
             $scope.produtosCarrinho.push(produto);
             console.log($scope.produtosCarrinho);
-            
+
         }
     }
 

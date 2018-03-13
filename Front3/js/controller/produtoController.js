@@ -16,7 +16,7 @@ function produtoController($scope,produtoService){
 
 		produtoService.get().then(function (data) {
 			$scope.produtos = data;
-			console.log("Produtos Carregados!!!")
+			console.log("Produtos finalmente carregados!!!")
 		}).catch(function onRejected(errorResponse) {
 			console.log('Erro em produtoService');
 			console.log('status: ', errorResponse.status);
@@ -24,18 +24,18 @@ function produtoController($scope,produtoService){
     }
 
     $scope.cadastrarProduto = function (produto) {
-    
-    	
+
+
 		produtoService.post(produto);
 		$scope.produto = {};
 		carregarProdutos();
-	} 
-    
+	}
+
     carregarProdutos();
 
     $scope.ordenar = function(tipo) {
     	$scope.tipoDeOrdenacao = tipo;
-    	
+
     }
 
     $scope.configPreco = function(produto, preco) {

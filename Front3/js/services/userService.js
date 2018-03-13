@@ -28,7 +28,7 @@ function userService($http, $location, $window) {
             window.alert("Logado com sucesso!!! :)");
             window.location.reload();
         }).catch(function onRejected(errorResponse) {
-            window.alert("Você tem problemas no login :|");
+            window.alert("Você tem problemas em logar :|");
             console.log('Erro em userService');
             console.log('status: ', errorResponse);
         });

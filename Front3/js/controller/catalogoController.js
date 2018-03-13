@@ -12,7 +12,7 @@ function catalogoController($scope, produtoService, userService) {
 
 		produtoService.get().then(function (data) {
 			filtrarDisponibilidade(data);
-			console.log("Produtos Carregados!!!")
+			console.log("Produtos finalmente carregados!!!")
 		}).catch(function onRejected(errorResponse) {
 			console.log('Erro em produtoService');
 			console.log('status: ', errorResponse.status);

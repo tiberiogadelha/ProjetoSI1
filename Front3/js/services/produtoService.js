@@ -19,7 +19,7 @@ function produtoService($http) {
           return produto;
         }).catch(function (response) {
           console.error('Erro ao adicionar ao sistema', response.status, response.data);
-          window.alert("Erro ao adicionar produto!");
+          window.alert("Erro ao adicionar o produto!");
           return response.status;
         });
     }
@@ -30,7 +30,7 @@ function produtoService($http) {
         return produto;
       }).catch(function (response) {
         console.error('Erro ao modificar no sistema', response.status, response.data);
-        window.alert("Erro ao modificar produto!");
+        window.alert("Erro ao modificar o produto!");
         return response.status;
       });
 

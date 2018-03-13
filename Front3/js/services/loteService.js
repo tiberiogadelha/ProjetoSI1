@@ -8,7 +8,7 @@ function loteService($http) {
                 .then(function (response) {
                     return response.data;
                 }).catch(function (response) {
-                    console.error('Lotes não carregados');
+                    console.error('Lotes não foram carregados');
                 })
         )
 
@@ -19,7 +19,7 @@ function loteService($http) {
             return lote;
         }).catch(function (response) {
             console.error('Erro ao adicionar ao sistema', response.status, response.data);
-            window.alert("Erro ao adicionar lote!");
+            window.alert("Erro ao adicionar o lote!");
             return response.status;
         });
     }

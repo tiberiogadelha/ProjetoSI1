@@ -11,12 +11,12 @@ function loteController($scope,produtoService, loteService){
 
     $scope.produtos = [{id:1, nome:"Feijão", numeroDeItens:20, dataDeValidade:"31-01-2018",categoria:"Alimentício", fabricante:"Nestle"}];
 
-    
+
     var carregaProdutos = function () {
 
         produtoService.get().then(function (data) {
             $scope.produtos = data;
-            console.log("Produtos Carregados")
+            console.log("Produtos finalmente carregados")
             console.log($scope.produtos);
         }).catch(function onRejected(errorResponse) {
             console.log('status: ', errorResponse.status);
@@ -24,12 +24,12 @@ function loteController($scope,produtoService, loteService){
     }
 
     carregaProdutos();
-    
+
     var carregarLotes = function () {
 
         loteService.get().then(function (data) {
             $scope.lotes = data;
-            console.log("Lotes Carregados!!!")
+            console.log("Lotes finalmente carregados!!!")
         }).catch(function onRejected(errorResponse) {
             console.log('Erro em loteService');
             console.log('status: ', errorResponse.status);
@@ -40,11 +40,11 @@ function loteController($scope,produtoService, loteService){
 
     $scope.cadastrarLote = function(lote){
         console.log(lote);
-        
+
        loteService.post(lote);
         $scope.lote = {};
         carregarLotes();
-        
+
     }
 
     $scope.decrementaNoLote = function(lote, quantidade) {
