@@ -1,4 +1,4 @@
-package com.ufcg.si1.factory;
+package com.ufcg.si1.model.factory;
 
 import org.springframework.beans.factory.annotation.Autowired;
 

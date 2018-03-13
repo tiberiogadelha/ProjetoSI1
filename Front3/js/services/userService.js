@@ -21,7 +21,7 @@ function userService($http, $location, $window) {
         $http.post("http://localhost:8080/login", usuario).then(function (result) {
             $window.localStorage.setItem("token", result.data);
 
-            $location.path("/produto");
+            $location.path("/dashboard");
             window.alert("Logado com sucesso!!! :)");
             window.location.reload();
         }).catch(function onRejected(errorResponse) {

@@ -1,8 +1,8 @@
 app.controller("produtoController", produtoController);
 
-produtoController.$inject = ['$scope','produtoService'];
+produtoController.$inject = ['$scope','produtoService', 'categoriaService'];
 
-function produtoController($scope,produtoService){
+function produtoController($scope,produtoService, categoriaService){
 
     $scope.tipoDeOrdenacao = "+nome";
     $scope.produto = {};
@@ -10,7 +10,7 @@ function produtoController($scope,produtoService){
     $scope.produtos = [];
     $scope.preco = 0.0;
     $scope.produtoModificado = {};
-    $scope.categorias = ["Alimenticio", "Higiene", "Bebida", "Limpeza", "Hortifruti"];
+    $scope.categorias = [];
 
     var carregarProdutos = function () {
 
@@ -22,6 +22,19 @@ function produtoController($scope,produtoService){
 			console.log('status: ', errorResponse.status);
 		});
     }
+
+    var carregarCategorias = function () {
+
+		categoriaService.get().then(function (data) {
+			$scope.categorias = data;
+			console.log("Categorias carregadas!");
+		}).catch(function onRejected(errorResponse) {
+			console.log('Erro em categoriaService');
+			console.log('status: ', errorResponse.status);
+		});
+    }
+    
+    carregarCategorias();
 
     $scope.cadastrarProduto = function (produto) {
 

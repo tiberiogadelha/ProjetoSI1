@@ -56,8 +56,31 @@
                     </header>
                 </main>
             </div>
+
+            <div class="col-md-11">
+                <div class="col-md-15">
+                    <div class="card mb-4">
+                        <div class="card-block">
+                            <h3 class="card-title">Avisos</h3>
+                            
+                            
+                        </div>
+                        <div ng-repeat="produtoVencido in produtosVencidos">
+                            <p class="text-danger" ng-repeat="">O produto: produtoVencido.produto.nome está vencido!</p>
+                        </div>
+
+                        <div ng-repeat="produtoEmFalta in produtosEmFalta">
+                            <p class="text-danger" ng-repeat="">O produto: produtoVencido.produto.nome está esgotado!</p>
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
+
+    
+
 
 
     <!-- Bootstrap JavaScript

@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ufcg.si1.factory.CategoriaFactory;
 import com.ufcg.si1.model.Categoria;
+import com.ufcg.si1.model.factory.CategoriaFactory;
 import com.ufcg.si1.repository.CategoriaRepository;
 
 @RestController
@@ -37,8 +37,4 @@ public class CategoriaResource {
 		return new ResponseEntity<List<Categoria>>(categorias, HttpStatus.OK);
 	}
 	
-	@PostMapping(produces="application/json")
-	public void adicionarCategorias(Categoria categoria) {
-		categoriaRepository.save(categoria);
-	}
 }

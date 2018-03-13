@@ -18,7 +18,7 @@ public class DataConfiguration {
         dataSource.setDriverClassName("com.mysql.jdbc.Driver");
         dataSource.setUrl("jdbc:mysql://localhost:3306/estoque?autoReconnect=true&useSSL=false");
         dataSource.setUsername("root");
-        dataSource.setPassword("root");
+        dataSource.setPassword("Olacade14!!");
         return dataSource;
     }
 	
