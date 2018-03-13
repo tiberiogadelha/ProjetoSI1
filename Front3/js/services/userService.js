@@ -5,8 +5,6 @@ userService.$inject = ['$http', '$location', '$window']
 function userService($http, $location, $window) {
 
     this.cadastrar = function (usuario) {
-        console.log(usuario);
-
         $http.post('http://localhost:8080/usuarios', usuario).then(function (result) {
             window.alert("Cadastrado com sucesso!!! :)");
         }).catch(function onRejected(errorResponse) {
@@ -19,7 +17,6 @@ function userService($http, $location, $window) {
     this.logar = function (usuario) {
 
         $window.localStorage.setItem('usuario', JSON.stringify(usuario));
-        console.log(usuario);
 
         $http.post("http://localhost:8080/login", usuario).then(function (result) {
             $window.localStorage.setItem("token", result.data);

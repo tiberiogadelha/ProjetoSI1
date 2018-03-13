@@ -7,6 +7,9 @@ import javax.validation.Valid;
 
 import com.ufcg.si1.repository.LoteRepository;
 import com.ufcg.si1.repository.ProdutoRepository;
+
+import org.joda.time.DateTime;
+import org.joda.time.Days;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -55,7 +58,7 @@ public class ApiResource {
 		if(getProduto(produto.getId()) == null) {
 			try {
 				produto.mudaSituacao(Produto.INDISPONIVEL);
-				
+
 			} catch (ObjetoInvalidoException e) {
 				return new ResponseEntity<Produto>(HttpStatus.NOT_ACCEPTABLE);
 			}
@@ -92,7 +95,7 @@ public class ApiResource {
 		currentProduto.setCodigoBarra(produto.getCodigoBarra());
 		currentProduto.mudaFabricante(produto.getFabricante());
 		currentProduto.setCategoria(produto.getCategoria());
-		
+
 		produtoRepository.save(currentProduto);
 		return new ResponseEntity<Produto>(currentProduto, HttpStatus.OK);
 	}
@@ -169,16 +172,16 @@ public class ApiResource {
 	@DeleteMapping(value="/lote/{id}")
 	public ResponseEntity<Lote> removerDoLote(@PathVariable("id") long produtoId){
 		List<Lote> lotes = buscarLotesDoProduto(produtoId);
-		
+
 		if(removerDoLote(lotes,0) == 0) {
 			return new ResponseEntity<Lote>(HttpStatus.ACCEPTED);
 		}
-		
+
 		Produto produto = getProduto(produtoId);
 		produto.situacao = Produto.INDISPONIVEL;
 		return new ResponseEntity<Lote>(HttpStatus.NOT_FOUND);
 	}
-	
+
 	private int removerDoLote(List<Lote> lotes,int indice) {
 		Lote lote = lotes.get(indice);
 		int quantidadeItens = lote.getNumeroDeItens();
@@ -193,7 +196,7 @@ public class ApiResource {
 			return -1;
 		}
 	}
-	
+
 	private List<Lote> buscarLotesDoProduto(long produtoId) {
 		List<Lote> lotes = new ArrayList<Lote>();
 		for(Lote l : loteRepository.findAll()) {
@@ -203,4 +206,64 @@ public class ApiResource {
 		}
 		return lotes;
 	}
+
+	@GetMapping(value="/lotevencimento")
+	public ResponseEntity<List<Lote>> listaDeLotesEmVencimento(){
+		ArrayList<Lote> lotesVencidos = new ArrayList<Lote>();
+		List<Lote> listaDeLotes = (List<Lote>) listaDeLotes();
+		for (int i = 0; i < listaDeLotes.size(); i++) {
+			String[] dataProduto = listaDeLotes.get(i).getDataDeValidade().split("-");
+			DateTime dataAtual = new DateTime();
+			DateTime dataDoLote = new DateTime(Integer.parseInt(dataProduto[0]),Integer.parseInt(dataProduto[1]),Integer.parseInt(dataProduto[2]),00,00,00);
+			int diferencia = Days.daysBetween(dataAtual, dataDoLote).getDays();
+			if(diferencia <= 30 && diferencia > 0) {
+				lotesVencidos.add(listaDeLotes.get(i));
+			}
+		} 
+		return new ResponseEntity<List<Lote>>(lotesVencidos,HttpStatus.ACCEPTED);
+	}
+	
+	@GetMapping(value="/lotevencido")
+	public ResponseEntity<List<Lote>> listaDeLotesVencidos(){
+		ArrayList<Lote> lotesVencidos = new ArrayList<Lote>();
+		List<Lote> listaDeLotes = (List<Lote>) listaDeLotes();
+		for (int i = 0; i < listaDeLotes.size(); i++) {
+			String[] dataProduto = listaDeLotes.get(i).getDataDeValidade().split("-");
+			DateTime dataAtual = new DateTime();
+			DateTime dataDoLote = new DateTime(Integer.parseInt(dataProduto[0]),Integer.parseInt(dataProduto[1]),Integer.parseInt(dataProduto[2]),00,00,00);
+			int diferencia = Days.daysBetween(dataAtual, dataDoLote).getDays();
+			if(diferencia < 0) {
+				lotesVencidos.add(listaDeLotes.get(i));
+			}
+		} 
+		return new ResponseEntity<List<Lote>>(lotesVencidos,HttpStatus.ACCEPTED);
+	}
+
+	@GetMapping(value="/produtoemfalta")
+	public ResponseEntity<List<Lote>> listaDeProdutosEmFalta(){
+		ArrayList<Lote> lotesEmFalta = new ArrayList<Lote>();
+		List<Lote> listaDeLotes = (List<Lote>) listaDeLotes();
+		for (int i = 0; i < listaDeLotes.size(); i++) {
+			if(listaDeLotes.get(i).getNumeroDeItens() == 0) {
+				lotesEmFalta.add(listaDeLotes.get(i));
+			}
+		} 
+		return new ResponseEntity<List<Lote>>(lotesEmFalta,HttpStatus.ACCEPTED);
+	}
+
+	private ArrayList<Lote> listaDeLotes() {
+		Iterable<Lote> listaLotes = loteRepository.findAll();
+		ArrayList<Lote> lotes = new ArrayList<Lote>();
+		for(Lote lote : listaLotes){
+			lotes.add(lote);
+		}
+		return lotes;
+	}
+
+	public void extornarProduto(Produto produto) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
 }

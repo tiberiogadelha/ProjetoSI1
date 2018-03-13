@@ -5,7 +5,6 @@ categoriaController.$inject = ['$scope'];
 function categoriaController($scope) {
 
 	$scope.titulo = "Configuração dos descontos";
-
 	$scope.descontos = [
 		{
 			tipo: "Super Desconto",

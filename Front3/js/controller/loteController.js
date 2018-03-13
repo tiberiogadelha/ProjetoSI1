@@ -1,15 +1,15 @@
 app.controller("loteController", loteController);
 
-loteController.$inject = ['$scope','produtoService', 'loteService'];
+loteController.$inject = ['$scope', 'produtoService', 'loteService', '$filter'];
 
-function loteController($scope,produtoService, loteService){
+function loteController($scope, produtoService, loteService, $filter) {
 
- $scope.titulo = "Cadastro de Lote";
+    $scope.titulo = "Cadastro de Lote";
     $scope.lotes = [];
     $scope.lote = {};
     $scope.tipoDeOrdenacao = "+dataDeValidade";
 
-    $scope.produtos = [{id:1, nome:"Feijão", numeroDeItens:20, dataDeValidade:"31-01-2018",categoria:"Alimentício", fabricante:"Nestle"}];
+    $scope.produtos = [{ id: 1, nome: "Feijão", numeroDeItens: 20, dataDeValidade: "31-01-2018", categoria: "Alimentício", fabricante: "Nestle" }];
 
 
     var carregaProdutos = function () {
@@ -38,22 +38,22 @@ function loteController($scope,produtoService, loteService){
 
     carregarLotes();
 
-    $scope.cadastrarLote = function(lote){
-        console.log(lote);
-
-       loteService.post(lote);
+    $scope.cadastrarLote = function (lote) {
+        var dataNova = $filter('date')(new Date(lote.dataDeValidade), 'yyyy-MM-dd');
+        lote.dataDeValidade = dataNova;
+        loteService.post(lote);
         $scope.lote = {};
         carregarLotes();
 
     }
 
-    $scope.decrementaNoLote = function(lote, quantidade) {
+    $scope.decrementaNoLote = function (lote, quantidade) {
         var produto = lote.produto;
 
         produto.quantidadeProduto -= quantidade;
     }
 
-    $scope.ordenar = function(tipo) {
+    $scope.ordenar = function (tipo) {
         console.log(tipo);
         $scope.tipoDeOrdenacao = tipo;
 

@@ -5,6 +5,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
+
 import com.ufcg.si1.model.strategy.BomDesconto;
 import com.ufcg.si1.model.strategy.Desconto;
 import com.ufcg.si1.model.strategy.OtimoDesconto;
@@ -21,11 +23,16 @@ public class Categoria implements Serializable{
 	private long id;
 	
 	private String nome;
+	
 	private Desconto desconto;
 
 	public Categoria (String nome) {
 		this.nome = nome;
-		desconto = new SemDesconto();
+		this.desconto = new SemDesconto();
+	}
+	
+	public Categoria () {
+		
 	}
 	
 	public String getNome() {

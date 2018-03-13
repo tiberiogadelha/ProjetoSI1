@@ -71,5 +71,11 @@ public class Registro implements Serializable{
 	public void setProdutos(List<Produto> produtos) {
 		this.produtos = produtos;
 	}
+
+	public long getId() {
+		return id;
+	}
+
+
 	
 }

@@ -1,16 +1,16 @@
-app.controller('dashBoardController',dashBoardController);
+app.controller('dashBoardController', dashBoardController);
 
-dashBoardController.$inject = ['$scope','userService'];
+dashBoardController.$inject = ['$scope', 'userService','$window'];
 
-function dashBoardController($scope,userService) {
+function dashBoardController($scope, userService, $window) {
 
-    $scope.titulo = "Controle do Sistema";
+  var usuario = JSON.parse($window.localStorage.getItem('usuario'));
 
+  $scope.titulo = "Controle do Sistema";
+  $scope.admin = usuario.username;
 
-    $scope.logout = function () {
-        console.log("eae kk");
-        
-		userService.logout();
-	}
+  $scope.logout = function () {
+    userService.logout();
+  }
 
 }

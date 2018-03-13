@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ufcg.si1.factory.CategoriaFactory;
 import com.ufcg.si1.model.Categoria;
 import com.ufcg.si1.repository.CategoriaRepository;
 
@@ -22,13 +23,16 @@ public class CategoriaResource {
 
 	@Autowired
 	private CategoriaRepository categoriaRepository;
-	
+
+	private CategoriaFactory cf;
+
 	@GetMapping(produces="application/json")
 	public ResponseEntity<List<Categoria>> listCategorias() {
 		List<Categoria> categorias = categoriaRepository.findAll();
 
 		if (categorias.isEmpty()) {
-			return new ResponseEntity<List<Categoria>>(HttpStatus.NOT_FOUND);
+			cf.criaCategorias();
+			return new ResponseEntity<List<Categoria>>(categorias,HttpStatus.OK);
 		}
 		return new ResponseEntity<List<Categoria>>(categorias, HttpStatus.OK);
 	}
