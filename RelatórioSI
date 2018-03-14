@@ -15,7 +15,7 @@ Bad smells encontrados:
   Usar um switch(case) já é um bad smell. Então, nesse caso, não é necessário saber qual situação recebeu, apenas deve definir "this.situacao = situacao".
 
 5) Muitos métodos na classe APIResource
-  Uma única classe com diversos métodos de diferentes funções é um problema. Então, a classe foi dividida para ficar melhor organizada.
+  Uma única classe com diversos métodos de diferentes funções é um problema.
 
 US Comentadas:
 1) Eu, como administrador, gostaria de logar no sistema, para ter acesso as funcionalidades destinadas ao administrador.
