@@ -141,20 +141,41 @@ public class ApiResource {
 
 		Lote lote = loteRepository.save(new Lote(produto, loteDTO.getNumeroDeItens(), loteDTO.getDataDeValidade()));
 
-		try {
-			if (produto.getSituacao() == Produto.INDISPONIVEL) {
-				if (loteDTO.getNumeroDeItens() > 0 && produto.getPreco().doubleValue() > 0) {
-					Produto produtoDisponivel = produto;
-					produtoDisponivel.situacao = Produto.DISPONIVEL;
-					produtoRepository.save(produtoDisponivel);
-				}
+		if (lotesValidos()) {
+			if (loteDTO.getNumeroDeItens() > 0 && produto.getPreco().doubleValue() > 0) {
+				Produto produtoDisponivel = produto;
+				produtoDisponivel.situacao = Produto.DISPONIVEL;
+				produtoRepository.save(produtoDisponivel);
 			}
-		} catch (ObjetoInvalidoException e) {
-			e.printStackTrace();
+		} else {
+			Produto produtoIndisponivel = produto;
+			produtoIndisponivel.situacao = Produto.INDISPONIVEL;
+			produtoRepository.save(produtoIndisponivel);
 		}
 
 		return new ResponseEntity<Lote>(lote, HttpStatus.CREATED);
 	}
+
+
+	private boolean lotesValidos() {
+		ArrayList<Lote> lotesVencidos = new ArrayList<Lote>();
+		List<Lote> listaDeLotes = (List<Lote>) listaDeLotes();
+		for (int i = 0; i < listaDeLotes.size(); i++) {
+			String[] dataProduto = listaDeLotes.get(i).getDataDeValidade().split("-");
+			DateTime dataAtual = new DateTime();
+			DateTime dataDoLote = new DateTime(Integer.parseInt(dataProduto[0]),Integer.parseInt(dataProduto[1]),Integer.parseInt(dataProduto[2]),00,00,00);
+			int diferencia = Days.daysBetween(dataAtual, dataDoLote).getDays();
+			if(diferencia < 0) {
+				lotesVencidos.add(listaDeLotes.get(i));
+			}
+		} 	
+		if(lotesVencidos.size() == loteRepository.findAll().size()) {
+			return false;
+		}
+		
+		return true;
+	}
+
 
 	@GetMapping(value="/lote", produces="application/json")
 	public ResponseEntity<List<Lote>> listarAllLotes() {
