@@ -1,0 +1,41 @@
+Projeto Estoque Fácil - SI1 2017.2
+Grupo 6
+
+Bad smells encontrados:
+1) Classe RestApiController.java da linha 56 à 63
+   O método criarProduto está com responsabilidades diferentes de criar um produto, ele também está procurando um produto no sistema (coisa que não é de sua responsabilidade). Para resolver esse problema, chama-se o método que procura um produto no sistema (que deve estar em ProdutoService).
+
+2) Classe RestApiController.java da linha 90 à 94
+   O método consultarProduto (através do id) não deveria ter a responsabilidade de procurar um produto, ele deveria chamar um método de busca (por ID) de produto que deve estar em ProdutoService.
+
+3) Classe RestApiController.java da linha 108 à 112
+  O método updateProduto tem o mesmo problema do bad smell 2: o método tem uma responsabilidade que não deveria ser dele, um método em ProdutoService deve ser criado para fazer essa função e assim, ser chamado por updateProduto.
+
+4) Classe Produto.java da linha 91 à 99
+  Usar um switch(case) já é um bad smell. Então, nesse caso, não é necessário saber qual situação recebeu, apenas deve definir "this.situacao = situacao".
+
+5) Muitos métodos na classe APIResource
+  Uma única classe com diversos métodos de diferentes funções é um problema. Então, a classe foi dividida para ficar melhor organizada.
+
+US Comentadas:
+1) Eu, como administrador, gostaria de logar no sistema, para ter acesso as funcionalidades destinadas ao administrador.
+   Um perfil de administrador é criado através de um POST em localhost:8080/usuario, após isso, na página principal tem um modal para login de adm. Apenas o administrador tem acesso à diversas funcionalidades, que estão bloqueadas para um visitante do site. 
+
+2)Eu, como cliente, gostaria de consultar a disponibilidade e o preço de cada produto do supermercado (não precisa estar logado).
+  A página inicial do site é um catálogo que mostra justamente isso. Apenas os produtos disponíveis são mostrados aos clientes.
+
+3)Eu, como administrador, gostaria de ordenar os produtos e os registros de vendas da loja de acordo com informações importantes deles (por exemplo, ordenar os produtos por nome, preço, data, categoria). 
+   Na página do administrador, nas abas relatórios, produtos e lote, possui uma engrenagem na parte superior direita de cada tabela para o administrador escolher a forma de ordenar.
+
+4)Eu, como administrador, gostaria de atribuir descontos para cada categoria de produto, dessa forma, o cliente recebe um abatimento no valor final da compra. Tipos de desconto: sem desconto (0%), bom desconto (10%), ótimo desconto (25%) e super desconto (50%).
+ Na página de administrador, na aba Configurar descontos, o administrador pode atribuir um tipo de desconto à uma determinada categoria.
+
+5)Eu, como administrador, gostaria de consultar um relatório geral do supermercado, visualizando informações do estoque dos produtos (nº de lotes, nº de itens, datas de validade), registros de vendas e receita arrecadada.
+ Na página de administrador, na aba Relatórios, essa funcionalidade foi aplicada.
+
+6)Eu, como administrador, gostaria que um produto fosse marcado como indisponível quando a quantidade de itens dele for igual a zero. Dessa forma, o seu preço não pode ser mais exibido para os clientes e ele deve ser adicionado na lista de produtos em falta; Eu, como administrador, gostaria que um produto fosse marcado como indisponível  quando todos os lotes do produto ultrapassarem a data de validade. Dessa forma, o seu preço não pode ser mais exibido para os clientes e ele deve ser adicionado na lista de produtos vencidos; Eu, como administrador, gostaria de receber notificações na tela inicial do sistema, avisando quando a quantidade de itens de um produto está baixa (abaixo de 15 unidades); Eu, como administrador, gostaria de receber notificações na tela inicial do sistema, avisando quando a validade de um lote está próximo ao vencimento (um mês de antecedência). 
+  Na BackEnd, métodos diferentes realizam essa função de sempre verificar se o produto está na data de validade, se o produto está vencido, e se o número de unidades daquele lote está acima de 15. Caso alguma irregularidade seja detectada, o sistema avisa na página do administrador, na aba DashBoard.
+
+Padrões de Projeto:
+  Apesar de ver ser necessário o uso de padrão de projeto, não aplicamos nenhum, com exceção da divisão da classe APIResource. Ao tentarmos usar o padrão Strategy no sistema de desconto, nos deparamos com diversos problemas no sistema que acabou complicando todo o projeto, e resolvemos não usá-lo
+
