@@ -54,7 +54,6 @@ function loteController($scope, produtoService, loteService, $filter) {
     }
 
     $scope.ordenar = function (tipo) {
-        console.log(tipo);
         $scope.tipoDeOrdenacao = tipo;
 
     }

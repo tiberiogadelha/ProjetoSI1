@@ -1,8 +1,8 @@
 app.controller("categoriaController", categoriaController);
 
-categoriaController.$inject = ['$scope'];
+categoriaController.$inject = ['$scope','categoriaService'];
 
-function categoriaController($scope) {
+function categoriaController($scope, categoriaService) {
 
 	$scope.titulo = "Configuração dos descontos";
 	$scope.descontos = [
@@ -24,27 +24,7 @@ function categoriaController($scope) {
 		}
 	];
 
-	$scope.categorias = [
-		{
-			tipo: "Alimenticio",
-			desconto: 0
-		},
-		{
-			tipo: "Higiene",
-			desconto: 0
-		},
-		{
-			tipo: "Bebida",
-			desconto: 0
-		},
-		{
-			tipo: "Limpeza",
-			desconto: 0
-		}, {
-			tipo: "Hortifruti",
-			desconto: 0
-		}
-	];
+	$scope.categorias = [];
 
 	$scope.categoria = {};
 	$scope.tipoDeDesconto = {};
@@ -52,10 +32,10 @@ function categoriaController($scope) {
 	
 
 	$scope.definirDesconto = function(categoria, tipoDeDesconto) {
-		var porcentDeDesconto = buscaDesconto(tipoDeDesconto);
 		angular.forEach($scope.categorias, function(categoriaSistema){
-			if(categoriaSistema.tipo == categoria){
-				categoriaSistema.desconto = porcentDeDesconto;
+			if(categoriaSistema.nome == categoria.nome){
+				window.alert("Oi");
+				categoriaSistema.desconto = tipoDeDesconto;
 			}
 		});
 
@@ -63,14 +43,17 @@ function categoriaController($scope) {
 		$scope.tipoDeDesconto = {};
 	}
 	
-	buscaDesconto = function(tipoDeDesconto) {
-		var porcent = 0;
-		angular.forEach($scope.descontos, function(desconto){
-			if(desconto.tipo == tipoDeDesconto) {
-				porcent = desconto.porcent;
-			}
-		});
+	var carregarCategorias = function () {
 
-		return porcent;
+		categoriaService.get().then(function (data) {
+			$scope.categorias = data;
+			console.log("Categorias carregadas!");
+			console.log($scope.categorias);
+		}).catch(function onRejected(errorResponse) {
+			console.log('Erro em categoriaService');
+			console.log('status: ', errorResponse.status);
+		});
 	}
+	
+	carregarCategorias();
 }

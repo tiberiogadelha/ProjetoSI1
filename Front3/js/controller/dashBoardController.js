@@ -43,7 +43,7 @@ function dashBoardController($scope, userService, $window, loteService) {
 
     loteService.produtosEmFalta().then(function (data) {
         $scope.produtosEmFalta = data;
-        console.log("Produtos vencidos carregados")
+        console.log("Produtos em falta carregados")
         console.log($scope.produtosVencidos);
     }).catch(function onRejected(errorResponse) {
         console.log('status: ', errorResponse.status);

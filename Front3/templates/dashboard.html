@@ -62,15 +62,22 @@
                     <div class="card mb-4">
                         <div class="card-block">
                             <h3 class="card-title">Avisos</h3>
-                            
-                            
-                        </div>
-                        <div ng-repeat="produtoVencido in produtosVencidos">
-                            <p class="text-danger" ng-repeat="">O produto: produtoVencido.produto.nome está vencido!</p>
                         </div>
 
-                        <div ng-repeat="produtoEmFalta in produtosEmFalta">
-                            <p class="text-danger" ng-repeat="">O produto: produtoVencido.produto.nome está esgotado!</p>
+                        <div ng-repeat='produtoVencido in produtosVencidos'>
+                            <p class="text-danger" text-align="center">O produto {{produtoVencido.produto.nome}} da Marca {{produtoVencido.produto.fabricante}}, lote ID: {{produtoVencido.id}}, está vencido!!</p>
+                        </div>
+
+                        <div ng-repeat='produtoEmVencimento in produtoVencimento'>
+                            <p class="text-warning" text-align="center">O produto {{produtoEmVencimento.produto.nome}} da Marca {{produtoEmVencimento.produto.fabricante}}, lote ID: {{produtoEmVencimento.id}}, está prestes a se vencer!!</p>
+                        </div>
+
+                        <div ng-repeat='produtoEmFalta in produtosEmFalta'>
+                            <p class="text-danger" text-align="center">O produto {{produtoEmFalta.produto.nome}} da Marca {{produtoEmFalta.produto.fabricante}}, lote ID: {{produtoEmFalta.id}}, está em falta!!</p>
+                        </div>
+
+                        <div ng-repeat='produtoAcabando in produtosAcabando' >
+                            <p class="text-warning" text-align="center">O produto {{produtoAcabando.produto.nome}} da Marca {{produtoAcabando.produto.fabricante}}, lote ID: {{produtoAcabando.id}}, está com poucas unidades!!</p>
                         </div>
                         
                     </div>
