@@ -22,7 +22,6 @@ function dashBoardController($scope, userService, $window, loteService) {
     loteService.produtosVencidos().then(function (data) {
         $scope.produtosVencidos = data;
         console.log("Produtos vencidos carregados")
-        console.log($scope.produtosVencidos);
     }).catch(function onRejected(errorResponse) {
         console.log('status: ', errorResponse.status);
     });
@@ -31,9 +30,8 @@ function dashBoardController($scope, userService, $window, loteService) {
   var carregaProdutosEmVencimento = function () {
 
     loteService.produtosVencimento().then(function (data) {
-        $scope.produtosVencimento = data;
+        $scope.produtosVencimento = data;        
         console.log("Produtos em vencimento carregados")
-        console.log($scope.produtosVencimento);
     }).catch(function onRejected(errorResponse) {
         console.log('status: ', errorResponse.status);
     });
@@ -44,7 +42,6 @@ function dashBoardController($scope, userService, $window, loteService) {
     loteService.produtosEmFalta().then(function (data) {
         $scope.produtosEmFalta = data;
         console.log("Produtos em falta carregados")
-        console.log($scope.produtosVencidos);
     }).catch(function onRejected(errorResponse) {
         console.log('status: ', errorResponse.status);
     });
@@ -55,7 +52,6 @@ function dashBoardController($scope, userService, $window, loteService) {
     loteService.produtosAcabando().then(function (data) {
         $scope.produtosAcabando = data;
         console.log("Produtos acabando carregados")
-        console.log($scope.produtosAcabando);
     }).catch(function onRejected(errorResponse) {
         console.log('status: ', errorResponse.status);
     });

@@ -87,13 +87,15 @@ public class RegistroResource {
 	public void registrar(@RequestBody Registro registro) {
 		List<Produto> produtos = registro.getProdutos();
 		Registro registroNovo = new Registro(registro.getData(),registro.getNomeCliente(),registro.getProdutos());
+		BigDecimal precoTotal = new BigDecimal(0);
 		for (int i = 0; i < produtos.size(); i++) {
 			Produto produto = produtos.get(i);
 			ApiResource.removerDoLote(produto.getId());
-			BigDecimal precoComDesconto = produto.getCategoria().getDesconto().calcularPrecoComDesconto(produto.getPreco());
-			registroNovo.setPrecoTotal(precoComDesconto);		
-			registroRepository.save(registroNovo);
+			BigDecimal precoComDesconto = produto.getCategoria().getDesconto().multiply(produto.getPreco());
+			precoTotal = precoTotal.add(precoComDesconto);
 		}	
+		registroNovo.setPrecoTotal(precoTotal);
+		registroRepository.save(registroNovo);
 
 	}
 }

@@ -1,9 +1,11 @@
 app.controller("categoriaController", categoriaController);
 
-categoriaController.$inject = ['$scope','categoriaService'];
+categoriaController.$inject = ['$scope','categoriaService','descontoService'];
 
-function categoriaController($scope, categoriaService) {
-
+function categoriaController($scope, categoriaService,descontoService) {
+	
+	$scope.categorias = [];
+	$scope.tipoDeDesconto = {};
 	$scope.titulo = "Configuração dos descontos";
 	$scope.descontos = [
 		{
@@ -20,25 +22,13 @@ function categoriaController($scope, categoriaService) {
 		},
 		{
 			tipo: "Sem Desconto",
-			porcent: 0
+			porcent: 1
 		}
 	];
 
-	$scope.categorias = [];
-
-	$scope.categoria = {};
-	$scope.tipoDeDesconto = {};
-
-	
-
 	$scope.definirDesconto = function(categoria, tipoDeDesconto) {
-		angular.forEach($scope.categorias, function(categoriaSistema){
-			if(categoriaSistema.nome == categoria.nome){
-				window.alert("Oi");
-				categoriaSistema.desconto = tipoDeDesconto;
-			}
-		});
-
+		descontoService.post(categoria,tipoDeDesconto);	
+		console.log(categoria);
 		$scope.categoria = {};
 		$scope.tipoDeDesconto = {};
 	}
@@ -49,6 +39,7 @@ function categoriaController($scope, categoriaService) {
 			$scope.categorias = data;
 			console.log("Categorias carregadas!");
 			console.log($scope.categorias);
+			
 		}).catch(function onRejected(errorResponse) {
 			console.log('Erro em categoriaService');
 			console.log('status: ', errorResponse.status);

@@ -46,9 +46,6 @@ public class ApiResource {
 	public ResponseEntity<List<Produto>> listAllUsers() {
 		List<Produto> produtos = produtoRepository.findAll();
 
-		if (produtos.isEmpty()) {
-			return new ResponseEntity<List<Produto>>(HttpStatus.NOT_FOUND);
-		}
 		return new ResponseEntity<List<Produto>>(produtos, HttpStatus.OK);
 	}
 
@@ -173,14 +170,17 @@ public class ApiResource {
 		List<Lote> lotes = buscarLotesDoProduto(produtoId);
 
 		long resultado = removerDoLote(lotes, 0);
-		
+		System.out.println(resultado);
 		if(resultado != -1) {
+			System.out.println("cheguei");
 			return resultado;
-		}
+		} else if (resultado == 1){
 
-		Produto produto = getProduto(produtoId);
-		produto.situacao = Produto.INDISPONIVEL;
+			Produto produto = getProduto(produtoId);
+			produto.situacao = Produto.INDISPONIVEL;
+		}
 		return -1;
+
 	}
 
 	private long removerDoLote(List<Lote> lotes,int indice) {
@@ -191,11 +191,13 @@ public class ApiResource {
 			loteRepository.save(lote);
 			return lote.getId();
 		}else{
-			if (lotes.get(indice +=1) != null) {
-				removerDoLote(lotes,indice+=1);
-			}
-			return -1;
-		}
+			indice ++;
+			if (lotes.get(indice) != null) {
+				removerDoLote(lotes,indice);
+			} else {
+				return -1;
+			}}
+		return quantidadeItens;	
 	}
 
 	private List<Lote> buscarLotesDoProduto(long produtoId) {
@@ -223,20 +225,20 @@ public class ApiResource {
 		} 
 		return new ResponseEntity<List<Lote>>(lotesVencidos,HttpStatus.ACCEPTED);
 	}
-	
+
 	@GetMapping(value="/produtoacabando")
 	public ResponseEntity<List<Lote>> listaDeProdutosQuaseEmFalta(){
 		ArrayList<Lote> lotesEmFalta = new ArrayList<Lote>();
 		List<Lote> listaDeLotes = (List<Lote>) listaDeLotes();
 		for (int i = 0; i < listaDeLotes.size(); i++) {
-			if(listaDeLotes.get(i).getNumeroDeItens() <= 15) {
+			if(listaDeLotes.get(i).getNumeroDeItens() <= 15 && listaDeLotes.get(i).getNumeroDeItens() >= 1) {
 				lotesEmFalta.add(listaDeLotes.get(i));
 			}
 		} 
 		return new ResponseEntity<List<Lote>>(lotesEmFalta,HttpStatus.ACCEPTED);
 	}
-	
-	
+
+
 	@GetMapping(value="/lotevencido")
 	public ResponseEntity<List<Lote>> listaDeLotesVencidos(){
 		ArrayList<Lote> lotesVencidos = new ArrayList<Lote>();

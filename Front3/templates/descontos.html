@@ -37,27 +37,53 @@
 
                             <!-- Formulario para definir desconto -->
                             <form class="form-horizontal" action="" ng-submit="definirDesconto(categoria, tipoDeDesconto)">
-                                    <fieldset>
-                                        <div class="form-group">
-                                                <select class="form-control" id="categoria" ng-model="categoria" ng-options="categoria.nome for categoria in categorias">
-                                                        <option value="">Selecione uma categoria</option>
-                                                </select>
-                                        </div>
+                                <fieldset>
+                                    <div class="form-group">
+                                        <select class="form-control" id="categoria" ng-model="categoria" ng-options="categoria.nome for categoria in categorias">
+                                            <option value="">Selecione uma categoria</option>
+                                        </select>
+                                    </div>
 
-                                        <div class="form-group">
-                                                <select class="form-control" id="tipoDesconto" ng-model="tipoDeDesconto" ng-options="desconto.tipo for desconto in descontos">
-                                                        <option value="">Selecione um tipo de desconto</option>
-                                                </select>
+                                    <div class="form-group">
+                                        <select class="form-control" id="tipoDesconto" ng-model="tipoDeDesconto" ng-options="desconto.tipo for desconto in descontos">
+                                            <option value="">Selecione um tipo de desconto</option>
+                                        </select>
+                                    </div>
+                                    <!-- Form actions -->
+                                    <div class="form-group">
+                                        <div class="col-12 widget-right no-padding">
+                                            <button type="submit" class="btn btn-primary btn-md float-right">Definir desconto</button>
                                         </div>
-                                        <!-- Form actions -->
-                                        <div class="form-group">
-                                            <div class="col-12 widget-right no-padding">
-                                                <button type="submit" class="btn btn-primary btn-md float-right">Definir desconto</button>
-                                            </div>
-                                        </div>
+                                    </div>
 
-                                    </fieldset>
-                                </form>
+                                </fieldset>
+                            </form>
+
+                            <hr>
+
+                            <!-- Tabela para mostrar as porcentagens de desconto -->
+
+                            <div class="table-responsive">
+                                <table class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>Nome do Deconto</th>
+
+                                            <th>Porcentagem de Desconto</th>
+
+                                        </tr>
+                                    </thead>
+
+                                    <tbody>
+                                        <tr ng-repeat="desconto in descontos">
+                                            <td>{{desconto.tipo}}</td>
+
+                                            <td>{{desconto.porcent}}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
                         </div>
                     </div>
                 </div>

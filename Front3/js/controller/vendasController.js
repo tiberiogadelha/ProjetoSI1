@@ -5,20 +5,28 @@ vendasController.$inject = ['$scope', 'produtoService','registroService'];
 function vendasController($scope, produtoService,registroService) {
 
     $scope.titulo = "Venda de Produtos"
-    $scope.produtos = [];
+    $scope.produtosDisponiveis = [];
     $scope.produtosCarrinho = [];
     $scope.ultimoRegistro = {};
 
     var carregarProdutos = function () {
-
         produtoService.get().then(function (data) {
-            $scope.produtos = data;
-            console.log("Produtos finalmente carregados!!!")
+            filtrarDisponibilidade(data);
+            console.log("Produtos carregados!!!")
         }).catch(function onRejected(errorResponse) {
             console.log('Erro em produtoService');
             console.log('status: ', errorResponse.status);
         });
     }
+
+    var filtrarDisponibilidade = function (produtos) {
+		for (let index = 0; index < produtos.length; index++) {
+			if (produtos[index].situacao === 1) {
+				$scope.produtosDisponiveis.push(produtos[index]);
+			}
+		}
+	}
+
 
     $scope.venderProdutos = function () {
         if ($scope.produtosCarrinho[0] == null) {

@@ -1,5 +1,6 @@
 package com.ufcg.si1.resources;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,24 +17,25 @@ import com.ufcg.si1.repository.CategoriaRepository;
 @RestController
 @RequestMapping("/desconto")
 @CrossOrigin
-public class DescontoResource {
+public class DescontoResource {	
 
 	@Autowired
 	private CategoriaRepository categoriaRepository;
 	
 	@PostMapping(value="/{id}",produces="application/json")
-	public void alterarDescontos(@PathVariable("id") long id, double tipoDesconto) {
-		Categoria categoria = getCategoria(id);
-		if(tipoDesconto == 1) {
-			categoria.setDescontoSemDesconto();
-		} else if (tipoDesconto == 0.1) {
-			categoria.setDescontoBomDesconto();
-		} else if (tipoDesconto == 0.25) {
-			categoria.setDescontoOtimoDesconto();
+	public void alterarDescontos(@PathVariable("id") long id, @RequestBody Categoria categoria) {
+		Categoria categoriaEditada = getCategoria(id);
+		BigDecimal tipoDesconto = categoria.getDesconto();
+		if(tipoDesconto.compareTo(new BigDecimal(1)) == 0) {
+			categoriaEditada.setDescontoSemDesconto();
+		} else if (tipoDesconto.compareTo(new BigDecimal(0.1)) == 0) {
+			categoriaEditada.setDescontoBomDesconto();
+		} else if (tipoDesconto.compareTo(new BigDecimal(0.25)) == 0) {
+			categoriaEditada.setDescontoOtimoDesconto();
 		} else {
-			categoria.setDescontoSuperDesconto();
+			categoriaEditada.setDescontoSuperDesconto();
 		}
-		categoriaRepository.save(categoria);
+		categoriaRepository.save(categoriaEditada);
 	}
 	
 	public Categoria getCategoria(long id){

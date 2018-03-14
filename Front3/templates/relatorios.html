@@ -30,7 +30,66 @@
             </div>
 
             <div class="col-md-11">
+
                 <div class="col-md-12">
+                    <div class="card mb-4">
+                        <div class="card-block">
+                            <h3 class="card-title">Relatório de Vendas -- Receita arrecadada: R$ {{receita}}</h3>
+
+                            <div class="dropdown card-title-btn-container">
+                                <button class="btn btn-sm btn-subtle dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <em class="fa fa-cog"></em>
+                                </button>
+
+                                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
+                                    <a class="dropdown-item" ng-click="ordenar('+id')">
+                                        <em class="fa fa-search mr-1"></em> Ordenar por ID</a>
+                                    <a class="dropdown-item" ng-click="ordenar('+precoTotal')">
+                                        <em class="fa fa-thumb-tack mr-1"></em> Ordenar por Preço</a>
+                                    <a class="dropdown-item" ng-click="ordenar('+cliente')">
+                                        <em class="fa fa-thumb-tack mr-1"></em> Ordenar por Cliente</a>
+
+                                </div>
+                            </div>
+
+                            <div class="table-responsive">
+                                <table class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">ID</th>
+                                            <th scope="col">Nome do cliente</th>
+                                            <th scope="col">Preço total</th>
+
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="venda in vendas | orderBy:tipoDeOrdenacao">
+                                            <td>{{venda.id}}</td>
+                                            <td>{{venda.nomeCliente}}</td>
+                                            <td>{{venda.precoTotal}}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-11">
+
+                <div class="col-md-12">
+
+                    <p style="font-size:20px"><strong>Número total de Itens: {{numeroTotalItens}}</strong></p>
+
+                    <p style="font-size:20px"><strong>Número total de Lotes: {{numeroTotalDeLotes}}</strong></p>
+
+
                     <div class="card mb-4">
                         <div class="card-block">
                             <h3 class="card-title">Relatório dos lotes no Sistema</h3>
@@ -56,72 +115,14 @@
                                         </tr>
                                     </tbody>
                                 </table>
-                            </div>   
-                        </div>
-                    </div>
-                </div>
-
-                
-            </div>
-        </div>
-    </div>
-
-    <div class="container">
-        <div class="row">
-            <div class="col-md-11">
-                <div class="col-md-12">
-                    <div class="card mb-4">
-                        <div class="card-block">
-                            <h3 class="card-title">Relatório de Vendas -- Receita arrecadada: R$ {{receita}}</h3>
-                            
-                            <div class="dropdown card-title-btn-container">
-                                <button class="btn btn-sm btn-subtle dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <em class="fa fa-cog"></em>
-                                </button>
-
-                                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
-                                    <a class="dropdown-item" ng-click="ordenar('+id')">
-                                        <em class="fa fa-search mr-1"></em> Ordenar por ID</a>
-                                    <a class="dropdown-item" ng-click="ordenar('+precoTotal')">
-                                        <em class="fa fa-thumb-tack mr-1"></em> Ordenar por Preço</a>
-                                    <a class="dropdown-item" ng-click="ordenar('+cliente')">
-                                        <em class="fa fa-thumb-tack mr-1"></em> Ordenar por Cliente</a>
-    
-                                </div>
                             </div>
-
-                            <div class="table-responsive">
-                                <table class="table table-striped">
-                                    <thead>
-                                        <tr>
-                                            <th scope="col">ID</th>
-                                            <th scope="col">Nome do cliente</th>
-                                            <th scope="col">Preço total</th>
-                                            
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr ng-repeat="venda in vendas | orderBy:tipoDeOrdenacao">
-                                            <td>{{venda.id}}</td>
-                                            <td>{{venda.cliente}}</td>
-                                            <td>{{venda.precoTotal}}</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>   
                         </div>
                     </div>
                 </div>
-
-                
             </div>
         </div>
     </div>
 
-          
-
-
-  </div>
 
     <!-- Bootstrap JavaScript
     ================================================== -->
