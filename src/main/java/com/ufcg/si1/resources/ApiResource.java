@@ -169,29 +169,30 @@ public class ApiResource {
 		return new ResponseEntity<List<Lote>>(lotes, HttpStatus.OK);
 	}
 
-	@DeleteMapping(value="/lote/{id}")
-	public ResponseEntity<Lote> removerDoLote(@PathVariable("id") long produtoId){
+	public long removerDoLote(@PathVariable("id") long produtoId){
 		List<Lote> lotes = buscarLotesDoProduto(produtoId);
 
-		if(removerDoLote(lotes,0) == 0) {
-			return new ResponseEntity<Lote>(HttpStatus.ACCEPTED);
+		long resultado = removerDoLote(lotes, 0);
+		
+		if(resultado != -1) {
+			return resultado;
 		}
 
 		Produto produto = getProduto(produtoId);
 		produto.situacao = Produto.INDISPONIVEL;
-		return new ResponseEntity<Lote>(HttpStatus.NOT_FOUND);
+		return -1;
 	}
 
-	private int removerDoLote(List<Lote> lotes,int indice) {
+	private long removerDoLote(List<Lote> lotes,int indice) {
 		Lote lote = lotes.get(indice);
 		int quantidadeItens = lote.getNumeroDeItens();
 		if(quantidadeItens > 0) {
 			lote.setNumeroDeItens(quantidadeItens -=1);
 			loteRepository.save(lote);
-			return 0;
+			return lote.getId();
 		}else{
-			if (lotes.get(indice ++) != null) {
-				removerDoLote(lotes,indice++);
+			if (lotes.get(indice +=1) != null) {
+				removerDoLote(lotes,indice+=1);
 			}
 			return -1;
 		}
@@ -275,7 +276,8 @@ public class ApiResource {
 
 	public void extornarProduto(Produto produto) {
 		ArrayList<Lote> lotes = (ArrayList<Lote>) buscarLotesDoProduto(produto.getId());
-		
+		if(lotes != null) {
+		}
 	}
 
 

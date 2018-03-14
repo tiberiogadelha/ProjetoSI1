@@ -5,7 +5,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToOne;
 
 import com.ufcg.si1.model.strategy.BomDesconto;
 import com.ufcg.si1.model.strategy.Desconto;
@@ -28,7 +27,6 @@ public class Categoria implements Serializable{
 
 	public Categoria (String nome) {
 		this.nome = nome;
-		this.desconto = new SemDesconto();
 	}
 	
 	public Categoria () {

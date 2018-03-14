@@ -9,8 +9,7 @@ public class SemDesconto extends Desconto implements Serializable{
 
 	@Override
 	public BigDecimal calcularPrecoComDesconto(BigDecimal precoOriginal) {
-		BigDecimal desconto = new BigDecimal(1);
-		return precoOriginal.multiply(desconto);
+		return precoOriginal;
 	}
 
 }
