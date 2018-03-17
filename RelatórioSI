@@ -38,4 +38,9 @@ US Comentadas:
 
 Padrões de Projeto:
   Apesar de ver ser necessário o uso de padrão de projeto, não aplicamos nenhum, com exceção da divisão da classe APIResource. Ao tentarmos usar o padrão Strategy no sistema de desconto, nos deparamos com diversos problemas no sistema que acabou complicando todo o projeto, e resolvemos não usá-lo
+  
+ Como rodar o programa:
+  1) Para rodar a parte do front, basta executar no terminal (dentro da pasta Front3) o comando ./node_modules/.bin/live-server
+  2) Para criar um administrador, basta fazer um POST na rota localhost:8080/usuarios , no seguinte formato: {"nome":"o nome do usuario", "senha":"A senha desejada", "email":"O email"}
+  3) Para logar como administrador, basta ir na página principal do projeto e clicar na aba 'Login' e usar o usuario criado através do POST.
 
