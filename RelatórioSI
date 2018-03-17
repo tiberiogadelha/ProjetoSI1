@@ -41,6 +41,7 @@ Padrões de Projeto:
   
  Como rodar o programa:
   1) Para rodar a parte do front, basta executar no terminal (dentro da pasta Front3) o comando ./node_modules/.bin/live-server
-  2) Para criar um administrador, basta fazer um POST na rota localhost:8080/usuarios , no seguinte formato: {"nome":"o nome do usuario", "senha":"A senha desejada", "email":"O email"}
-  3) Para logar como administrador, basta ir na página principal do projeto e clicar na aba 'Login' e usar o usuario criado através do POST.
+  2) Importar o projeto no eclipse e rodar a back-end
+  3) Para criar um administrador, basta fazer um POST na rota localhost:8080/usuarios, pode ser feito usando o postman ou o próprio terminal , no seguinte formato: {"nome":"o nome do usuario", "senha":"A senha desejada", "email":"O email"}
+  4) Para logar como administrador, basta ir na página principal do projeto e clicar na aba 'Login' e usar o usuario criado através do POST.
 
